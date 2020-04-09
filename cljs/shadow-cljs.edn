@@ -1,0 +1,8 @@
+{:source-paths ["./"]
+ :dev-http     {8080 {:root      "build/"}}
+ :builds       {:app {:output-dir "build/assets"
+                      :asset-path "assets"
+                      :target     :browser
+                      :modules    {:main {:init-fn src.core/main}}
+                      :devtools   {:http-root  "build/"
+                                   :http-port  8080}}}}

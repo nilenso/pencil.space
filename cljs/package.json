@@ -1,0 +1,12 @@
+{
+  "name": "paper-space",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "shadow-cljs": "2.8.94"
+  },
+  "dependencies": {
+    "acorn": "^7.1.1",
+    "paper": "^0.12.4"
+  }
+}

@@ -1,0 +1,23 @@
+html {
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+    background-color: white;
+    color: black;
+    font-family: 'mono';
+    /*background-color: #70C4B1;*/
+    /*background-image:linear-gradient(#a0d1cf,#70C4B1);*/
+    /*overflow-x: scroll;*/
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    direction: rtl;
+    z-index: 1;
+
+}
