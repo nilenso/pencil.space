@@ -2,11 +2,12 @@ use Mix.Config
 
 # Configure your database
 config :pencil_space_server, PencilSpaceServer.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "pencil_space_server_dev",
+  username: "pencil",
+  password: "passwd",
+  database: "pencil_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
+  port: 10001,
   pool_size: 10
 
 # For development, we disable any cache and enable

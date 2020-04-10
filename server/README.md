@@ -1,8 +1,10 @@
 # PencilSpaceServer
 
+## Local Dev Setup
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
+  * Install postgres with `docker-compose up -d`
   * Create and migrate your database with `mix ecto.setup`
   * Start Phoenix endpoint with `mix phx.server`
 
