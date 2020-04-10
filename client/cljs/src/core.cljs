@@ -5,19 +5,34 @@
 (def path-buffer (atom nil))
 (def buffer-duration-ms 100)
 
-#_(defn draw-received-drawing
-  [path]
-  (let [path (clj->js (map (fn [point] [(+ (first point) 35) (second point)]) path))]
-    (new paper/Path (clj->js {:strokeColor "red"
-                              :strokeWidth 4
-                              :strokeJoin  "round"
-                              :strokeCap   "round"
-                              :segments    path}))))
+(def external-current-path (atom nil))
+(def external-current-path-id (atom nil))
+
+(defn new-path [& [options]]
+  (new paper/Path (clj->js (merge {:strokeColor "red"
+                                   :strokeWidth 4
+                                   :strokeJoin  "round"
+                                   :strokeCap   "round"}
+                                  options))))
+
+(defn current-time []
+  (.getTime (js/Date.)))
+
+(defn new-external-path
+  [path-id segments]
+  (reset! external-current-path-id path-id)
+  (reset! external-current-path (new-path {:segments segments})))
+
+(defn draw-received-drawing
+  [{:keys [segments path-id timestamp]}]
+  (let [segments (map (fn [s] [(+ 100 (first s)) (second s)]) segments)]
+    (if (= @external-current-path-id path-id)
+      (.addSegments @external-current-path (clj->js segments))
+      (new-external-path path-id segments))))
 
 (defn send-drawing
   [path]
-  (.log js/console (clj->js path))
-  #_(draw-received-drawing (:path @path-buffer)))
+  (draw-received-drawing path))
 
 (defn send-drawing-buffered
   [event]
@@ -25,29 +40,35 @@
         y (.-y (.-point event))]
     (if (> (- (.getTime (js/Date.)) (:timestamp @path-buffer)) buffer-duration-ms)
       (do
-        (send-drawing (:path @path-buffer))
-        (swap! path-buffer assoc :path [])
-        (swap! path-buffer assoc :timestamp (.getTime (js/Date.))))
-      (swap! path-buffer update :path conj [x y]))))
+        (send-drawing @path-buffer)
+        (swap! path-buffer assoc :segments [])
+        (swap! path-buffer assoc :timestamp (current-time)))
+      (swap! path-buffer update :segments conj [x y]))))
 
-(defn onMouseDown
+(defn on-mouse-down
   [event]
-  (reset! current-path (new paper/Path (clj->js {:strokeColor "red"
-                                                 :strokeWidth 4
-                                                 :strokeJoin  "round"
-                                                 :strokeCap   "round"})))
+  (reset! current-path (new-path))
   (.add @current-path (.-point event))
-  (reset! path-buffer {:path      []
-                       :timestamp (.getTime (js/Date.))}))
+  (reset! path-buffer {:segments  []
+                       :path-id   (.-id @current-path)
+                       :timestamp (current-time)}))
 
-(defn onMouseDrag
+(defn on-mouse-drag
   [event]
   (.add @current-path (.-point event))
   (.smooth @current-path)
   (send-drawing-buffered event))
 
+(defn on-mouse-up
+  [event]
+  (.add @current-path (.-point event))
+  (.smooth @current-path)
+  (send-drawing @path-buffer))
+
 (defn main []
   (let [canvas (.getElementById js/document "canvas")]
     (.setup paper canvas)
-    (set! (.-onMouseDown paper/view) onMouseDown)
-    (set! (.-onMouseDrag paper/view) onMouseDrag)))
+    (set! (.-onMouseDown paper/view) on-mouse-down)
+    (set! (.-onMouseDrag paper/view) on-mouse-drag)
+    (set! (.-onMouseUp paper/view) on-mouse-up)
+    (new-external-path 0 [])))
