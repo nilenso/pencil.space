@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  pencil_db:
+    image: postgres:12-alpine
+    ports:
+      - 10001:5432
+    environment:
+      POSTGRES_USER: "pencil"
+      POSTGRES_PASSWORD: "passwd"
+      POSTGRES_DB: "pencil_dev"
+    volumes:
+      - data:/var/lib/postgres/data
+    networks:
+      - pencil_dev
+
+volumes:
+  data:
+
+networks:
+  pencil_dev:
