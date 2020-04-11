@@ -24,7 +24,9 @@
 (re-frame/reg-event-fx
  ::nick-change
  (fn [{:keys [db] :as cofx} [_ _]]
-   {:db (assoc db :nick-name "foobar")
+   {:db (assoc db
+               :nick-name "foobar"
+               :avatar (.toDataURL (.getElementById js/document "nick-sine") "image/jpeg," 0.1))
     ::draw-sine! (random-color)}))
 
 
