@@ -6,8 +6,8 @@
             [src.routes :as routes]))
 
 (re-frame/reg-event-db
-   ::initialize-db
-   (fn [db _] (do (js/console.log db) db/default)))
+ ::initialize-db
+ (fn [db _] db/default))
 
 (def page-root
   (.getElementById js/document "app"))

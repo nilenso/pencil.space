@@ -5,9 +5,6 @@ html {
     background-color: #eee;
     color: black;
     font-family: 'mono';
-    /*background-color: #70C4B1;*/
-    /*background-image:linear-gradient(#a0d1cf,#70C4B1);*/
-    /*overflow-x: scroll;*/
 }
 
 .board {
@@ -20,10 +17,17 @@ html {
 }
 
 canvas {
-  border: 1px solid #ccc;
   position: relative;
   width: 100%;
   height: 100%;
   margin: auto;
   background-color: white;
+}
+
+canvas#nick-sine {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  background-color: #eee;
 }
