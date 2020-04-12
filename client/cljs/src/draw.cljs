@@ -1,7 +1,9 @@
 (ns src.draw
-  (:require ["paper" :as paper]
+  (:require["paper" :as paper]
+            [re-frame.core :as re-frame]
             [reagent.core :as reagent]
-            [reagent.dom :as reagent-dom]))
+            [reagent.dom :as reagent-dom]
+            [src.tube :as tube]))
 
 (def current-path (atom nil))
 (def path-buffer (atom nil))
@@ -40,13 +42,25 @@
       (new-external-path path-id segments))))
 ;;;;;;
 
+;;; effects
+
+(re-frame/reg-event-fx
+ ::send-new-path
+ (fn [db [_ path]]
+   {::send! path}))
+
+(re-frame/reg-fx
+ ::send!
+ (fn [path]
+   (tube/push "[PATH]" path)))
+
 (defn clear-path-buffer! []
   (reset! path-buffer (new-path-buffer)))
 
 (defn send-buffer! []
   (if (not-empty (:segments @path-buffer))
     (do
-      (draw-received-drawing @path-buffer)
+      (re-frame/dispatch [::send-new-path (clj->js @path-buffer)])
       (clear-path-buffer!))))
 
 (defn send-buffer-if-time! []
@@ -99,6 +113,8 @@
         (set! (.-onMouseUp paper/view)   on-mouse-up)
         (set! (.-onMouseDown paper/view) on-mouse-down)
         (set! (.-onMouseDrag paper/view) on-mouse-drag)
+
+        (tube/join draw-received-drawing)
 
         (new-external-path 0 []))
 
