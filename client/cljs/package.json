@@ -10,6 +10,7 @@
     "create-react-class": "15.6.3",
     "highlight.js": "9.18.1",
     "paper": "^0.12.4",
+    "phoenix": "^1.4.16",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-highlight.js": "1.0.7",
