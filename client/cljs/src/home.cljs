@@ -3,6 +3,49 @@
             [re-frame.core :as re-frame]
             [reitit.frontend.easy :as rfe]))
 
+(declare random-color)
+(declare points)
+(declare canvas)
+(declare nick-canvas)
+(declare clear-canvas)
+
+(re-frame/reg-event-fx
+ ::navigate
+ (fn [db [_ & route]]
+   {::navigate! route}))
+
+(re-frame/reg-fx
+ ::navigate!
+ (fn [route]
+   (apply rfe/push-state route)))
+
+(re-frame/reg-event-fx
+ ::nick-change
+ (fn [{:keys [db] :as cofx} [_ name]]
+   {:db (assoc db
+               :nick-name name
+               :avatar (.toDataURL (.getElementById js/document
+                                                    "nick-sine")
+                                   "image/jpeg,"
+                                   0.1))
+    ::draw-sine! [(empty? name) (random-color)]}))
+
+(re-frame/reg-fx
+ ::draw-sine!
+ (fn [[clear? color]]
+   (if clear?
+     (clear-canvas (canvas))
+     (.curve (nick-canvas)
+             (clj->js (points))
+             (clj->js {:roughness 1.2,
+                       :stroke color,
+                       :strokeWidth 5})))))
+
+(re-frame/reg-sub
+ ::nick-name
+ (fn [{:keys [db] :as cofx}]
+   (:nick-name db)))
+
 (defn random-color
   []
   (str "#" (-> (.random js/Math)
@@ -10,30 +53,17 @@
                (bit-or 0)
                (.toString 16))))
 
+(defn canvas
+  []
+  (.getElementById js/document "nick-sine"))
+
 (defn nick-canvas
   []
-  (.canvas rough
-           (.getElementById js/document
-                            "nick-sine")))
+  (.canvas rough (canvas)))
 
-(re-frame/reg-event-fx
- ::navigate
- (fn [db [_ & route]]
-   {::navigate! route}))
-
-(re-frame/reg-event-fx
- ::nick-change
- (fn [{:keys [db] :as cofx} [_ _]]
-   {:db (assoc db
-               :nick-name "foobar"
-               :avatar (.toDataURL (.getElementById js/document "nick-sine") "image/jpeg," 0.1))
-    ::draw-sine! (random-color)}))
-
-
-(re-frame/reg-sub
- ::nick-name
- (fn [{:keys [db] :as cofx}]
-   (:nick-name db)))
+(defn clear-canvas
+  [canvas]
+  (.clearRect (.getContext canvas "2d") 0 0 (.-width canvas) (.-height canvas)))
 
 (defn points []
   (reduce (fn [acc v]
@@ -44,20 +74,6 @@
               (conj acc [x y])))
           []
           (range 0 20)))
-
-(re-frame/reg-fx
- ::draw-sine!
- (fn [color]
-   (.curve (nick-canvas)
-           (clj->js (points))
-           (clj->js {:roughness 1.2,
-                     :stroke color,
-                     :strokeWidth 5}))))
-
-(re-frame/reg-fx
- ::navigate!
- (fn [route]
-   (apply rfe/push-state route)))
 
 (defn page []
   (let [nick (re-frame/subscribe [::nick-name])]
@@ -72,19 +88,9 @@
            [:input#paperInputs1 {:placeholder "Enter a nick name...",
                                  :type "text"
                                  :auto-focus true
-                                 :on-change #(re-frame/dispatch [::nick-change])}]]
+                                 :on-change #(re-frame/dispatch [::nick-change (-> % .-target .-value)])}]]
           [:div.sm-8.col
            [:canvas#nick-sine {:width "800" :height "100"}]]]
          [:button.btn-success.btn-block
-          {:on-click #(re-frame/dispatch [::navigate :src.routes/sub-page2 @nick])}
+          {:on-click #(re-frame/dispatch [::navigate :src.routes/sub-page2])}
           "Start a new game"]]]])))
-
-;; let points = [];
-
-;; for (let i = 0; i < 20; i++) {
-;;   // 4pi - 400px
-;;   let x = (400 / 20) * i + 10;
-;;   let xdeg = (Math.PI / 100) * x;
-;;   let y = Math.round(Math.sin(xdeg) * 90) + 500;
-;;   points.push([x, y]);
-;; }

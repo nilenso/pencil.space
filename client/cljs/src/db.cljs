@@ -4,5 +4,4 @@
   {:app-name "pencil.space"
    :nick-name nil
    :avatar nil
-   :color nil
    :current-route nil})
