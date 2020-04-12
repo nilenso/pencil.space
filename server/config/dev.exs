@@ -56,3 +56,7 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :pencil_space_server, PencilSpaceServerWeb.Endpoint,
+       reloadable_compilers: [:gettext, :phoenix, :elixir],
+       reloadable_apps: [:ui, :backend]

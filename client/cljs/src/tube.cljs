@@ -6,54 +6,61 @@
        "ws://localhost:4000/socket"
        (clj->js {:params {:token ""}})))
 
-(.connect socket)
-
 (def channel (.channel socket "room:lobby" (clj->js {})))
+(def joined-channel (.join channel))
 
 (defn push
-  ([msg_type msg_body]
-   (push msg_type
-         msg_body
+  ([msg-type msg-body]
+   (push msg-type
+         msg-body
          (fn [resp]
-           (let [resp_clj (js->clj resp)]
-             (js/console.log "Received", resp_clj)))))
+           (let [resp-clj (js->clj resp)]
+             (js/console.log "Received", (pr-str resp-clj))))))
 
-  ([msg_type msg_body on_ok]
-   (push msg_type
-         msg_body
-         on_ok
+  ([msg-type msg-body on-ok]
+   (push msg-type
+         msg-body
+         on-ok
          (fn [resp]
-           (let [resp_clj (js->clj resp)]
-             (js/console.log "Received error" (pr-str resp_clj))))))
+           (let [resp-clj (js->clj resp)]
+             (js/console.log "Received error" (pr-str resp-clj))))))
 
-  ([msg_type msg_body on_ok on_error]
-   (push msg_type
-         msg_body
-         on_ok
-         on_error
+  ([msg-type msg-body on-ok on-error]
+   (push msg-type
+         msg-body
+         on-ok
+         on-error
          (fn [resp]
-           (let [resp_clj (js->clj resp)]
-             (js/console.log "Received Timeout" (pr-str resp_clj))))))
+           (let [resp-clj (js->clj resp)]
+             (js/console.log "Received Timeout" (pr-str resp-clj))))))
 
-  ([msg_type msg_body on_ok on_error on_timeout]
-   (let [pushEvent (.push channel msg_type (clj->js msg_body))]
+  ([msg-type msg-body on-ok on-error on-timeout]
+   (let [pushEvent (.push channel msg-type (clj->js msg-body))]
      (-> pushEvent
-         (.receive "ok" #(on_ok (js->clj %)))
-         (.receive "error" #(on_error (js->clj %)))
-         (.receive "timeout" #(on_timeout (js->clj %)))))))
+         (.receive "ok" #(on-ok (js->clj %)))
+         (.receive "error" #(on-error (js->clj %)))
+         (.receive "timeout" #(on-timeout (js->clj %)))))))
 
-(def joinedChannel (.join channel))
-
-(defn join [callback]
-  (.receive joinedChannel "ok"
-            (fn [resp]
-              (js/console.log "Joined successfully")
-              (push "get_actors", {} callback)))
-
-  (.receive joinedChannel
-            "error"
-            (fn [resp] (js/console.log "Unable to join", resp)))
-
+(defn join
+  [callback]
   (.on channel
-       "event"
-       (fn [resp] (js/console.log "Event"))))
+       "[CHAT]"
+       (fn [resp]
+         (js/console.log "Event"
+                         (clj->js resp))))
+  (.receive joined-channel
+            "ok"
+            (fn [resp]
+              (js/console.log "Joined successfully" (clj->js resp))))
+
+  (.receive joined-channel
+            "error"
+            (fn [resp]
+              (js/console.log "Unable to join", resp))))
+
+(defn connect
+  []
+  (.connect socket)
+  (join joined-channel))
+
+(connect)
