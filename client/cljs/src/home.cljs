@@ -92,5 +92,5 @@
           [:div.sm-8.col
            [:canvas#nick-sine {:width "800" :height "100"}]]]
          [:button.btn-success.btn-block
-          {:on-click #(re-frame/dispatch [::navigate :src.routes/sub-page2])}
+          {:on-click #(re-frame/dispatch [::navigate :src.routes/draw])}
           "Start a new game"]]]])))

@@ -71,3 +71,7 @@
     (set! (.-onMouseDrag paper/view) on-mouse-drag)
     (set! (.-onMouseUp paper/view) on-mouse-up)
     (new-external-path 0 [])))
+
+(defn page []
+  [:div.board
+   [:canvas#drawing-board]])

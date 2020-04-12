@@ -16,7 +16,7 @@ html {
   padding: 10px;
 }
 
-canvas {
+canvas#drawing-board {
   position: relative;
   width: 100%;
   height: 100%;

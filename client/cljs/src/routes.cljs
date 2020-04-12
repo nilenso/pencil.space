@@ -8,35 +8,26 @@
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfe]
             [src.db :as db]
+            [src.draw :as draw]
             [src.home :as home]
             [src.lobby :as lobby]
-            [src.sundry :as sundry]
-            [src.subs]))
+            [src.subs]
+            [src.sundry :as sundry]))
 
 (def routes
   ["/"
    [""
-    {:name      ::home
-     :view      home/page
-     :link-text "Home"
+    {:name ::home
+     :view home/page
      :controllers
-     [{:start (fn [& params](js/console.log "Entering home page"))
+     [{:start (fn [& params] (js/console.log "Entering home page"))
        :stop  (fn [& params] (js/console.log "Leaving home page"))}]}]
 
-   ["sub-page1"
-    {:name      ::sub-page1
-     :view      lobby/page
-     :link-text "Sub page 1"
+   ["draw"
+    {:name ::draw
+     :view draw/page
      :controllers
-     [{:start (fn [& params] (js/console.log "Entering sub-page 1"))
-       :stop  (fn [& params] (js/console.log "Leaving sub-page 1"))}]}]
-
-   ["sub-page2"
-    {:name      ::sub-page2
-     :view      lobby/page2
-     :link-text "Sub-page 2"
-     :controllers
-     [{:start (fn [& params] (js/console.log "Entering sub-page 2"))
+     [{:start (fn [& params] (do (draw/main) (js/console.log "Entering sub-page 2")))
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
 
 (def router
@@ -52,21 +43,8 @@
 (re-frame/reg-event-db
  ::navigated
  (fn [{current-route :current-route :as db} [_ new-match]]
-   (let [controllers (rfc/apply-controllers (:controllers current-route)
-                                            new-match)]
+   (let [controllers (rfc/apply-controllers (:controllers current-route) new-match)]
      (assoc db :current-route (assoc new-match :controllers controllers)))))
-
-(defn nav [{:keys [router current-route]}]
-  [:ul
-   (for [route-name (r/route-names router)
-         :let       [route (r/match-by-name router route-name)
-                     text (-> route :data :link-text)]]
-     [:li {:key route-name}
-      (when (= route-name (-> current-route
-                              :data
-                              :name))
-        "> ")
-      [:a {:href (sundry/href route-name)} text]])])
 
 (defn on-navigate [new-match]
   (when new-match
@@ -75,7 +53,6 @@
 (defn router-component [{:keys [router]}]
   (let [current-route @(re-frame/subscribe [::current-route])]
     [:div
-     [nav {:router router :current-route current-route}]
      (when current-route
        [(-> current-route :data :view)])]))
 
