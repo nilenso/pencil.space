@@ -85,9 +85,7 @@
       :component-did-mount
       (fn [this]
         (reset! dom-node (reagent-dom/dom-node this))
-
-        (.setup paper (.-first-child dom-node))
-
+        (.setup paper (js/document.getElementById "drawing-board"))
         (set! (.-onMouseUp paper/view)   on-mouse-up)
         (set! (.-onMouseDown paper/view) on-mouse-down)
         (set! (.-onMouseDrag paper/view) on-mouse-drag)
