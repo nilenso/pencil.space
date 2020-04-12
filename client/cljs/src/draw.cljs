@@ -1,5 +1,7 @@
 (ns src.draw
-  (:require ["paper" :as paper]))
+  (:require ["paper" :as paper]
+            [reagent.core :as reagent]
+            [reagent.dom :as reagent-dom]))
 
 (def current-path (atom nil))
 (def path-buffer (atom nil))
@@ -46,6 +48,8 @@
 
 (defn on-mouse-down
   [event]
+  (js/console.log "mouse down")
+
   (reset! current-path (new-path))
   (.add @current-path (.-point event))
   (reset! path-buffer {:segments  []
@@ -54,24 +58,43 @@
 
 (defn on-mouse-drag
   [event]
+
+  (js/console.log "mouse drag")
+
   (.add @current-path (.-point event))
   (.smooth @current-path)
+
   (send-drawing-buffered event))
 
 (defn on-mouse-up
   [event]
+
+  (js/console.log "mouse up")
+
   (.add @current-path (.-point event))
   (.smooth @current-path)
+
   (send-drawing @path-buffer))
 
-(defn main []
-  (let [canvas (.getElementById js/document "canvas")]
-    (.setup paper canvas)
-    (set! (.-onMouseDown paper/view) on-mouse-down)
-    (set! (.-onMouseDrag paper/view) on-mouse-drag)
-    (set! (.-onMouseUp paper/view) on-mouse-up)
-    (new-external-path 0 [])))
-
 (defn page []
-  [:div.board
-   [:canvas#drawing-board]])
+  (let [dom-node (reagent/atom nil)]
+    (reagent/create-class
+     {:component-did-update
+      (fn [this] (js/console.log "did update"))
+
+      :component-did-mount
+      (fn [this]
+        (reset! dom-node (reagent-dom/dom-node this))
+
+        (.setup paper (.-first-child dom-node))
+
+        (set! (.-onMouseUp paper/view)   on-mouse-up)
+        (set! (.-onMouseDown paper/view) on-mouse-down)
+        (set! (.-onMouseDrag paper/view) on-mouse-drag)
+
+        (new-external-path 0 []))
+
+      :reagent-render
+      (fn []
+        [:div.board
+         [:canvas#drawing-board]])})))
