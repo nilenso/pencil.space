@@ -1,8 +1,7 @@
 (ns src.home
   (:require ["roughjs/bin/rough" :default rough]
             [re-frame.core :as re-frame]
-            [reitit.frontend.easy :as rfe]
-            [src.tube :as tube]))
+            [reitit.frontend.easy :as rfe]))
 
 (declare random-color)
 (declare points)
@@ -14,16 +13,6 @@
  ::navigate
  (fn [db [_ & route]]
    {::navigate! route}))
-
-(re-frame/reg-event-fx
- ::send-msg
- (fn [db [_ & msg]]
-   {::dispatch! msg}))
-
-(re-frame/reg-fx
- ::dispatch!
- (fn [msg]
-   (tube/push "[CHAT]" msg)))
 
 (re-frame/reg-fx
  ::navigate!
@@ -102,11 +91,6 @@
                                  :on-change #(re-frame/dispatch [::nick-change (-> % .-target .-value)])}]]
           [:div.sm-8.col
            [:canvas#nick-sine {:width "800" :height "100"}]]]
-
-         [:button.btn-fail.btn-block
-          {:on-click #(re-frame/dispatch [::send-msg "hiya"])}
-          "Send 'hiya'"]
-
          [:button.btn-success.btn-block
           {:on-click #(re-frame/dispatch [::navigate :src.routes/draw])}
           "Start a new game"]]]])))

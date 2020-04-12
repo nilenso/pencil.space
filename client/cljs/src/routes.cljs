@@ -12,6 +12,7 @@
             [src.home :as home]
             [src.lobby :as lobby]
             [src.subs]
+            [src.chat :as chat]
             [src.sundry :as sundry]))
 
 (def routes
@@ -22,6 +23,13 @@
      :controllers
      [{:start (fn [& params] (js/console.log "Entering home page"))
        :stop  (fn [& params] (js/console.log "Leaving home page"))}]}]
+
+   ["game"
+    {:name ::chat
+     :view chat/page
+     :controllers
+     [{:start (fn [& params] (js/console.log "Entering sub-page 2"))
+       :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
    ["draw"
     {:name ::draw

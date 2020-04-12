@@ -77,7 +77,6 @@
   (send-drawing @path-buffer))
 
 (defn page []
-  (.addEventListener js/window "resize" on-window-resize)
   (let [dom-node (reagent/atom nil)]
     (reagent/create-class
      {:component-did-update

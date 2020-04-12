@@ -9,6 +9,9 @@
 (def channel (.channel socket "room:lobby" (clj->js {})))
 (def joined-channel (.join channel))
 
+(defn connect []
+  (.connect socket))
+
 (defn push
   ([msg-type msg-body]
    (push msg-type
@@ -43,11 +46,9 @@
 
 (defn join
   [callback]
-  (.on channel
-       "[CHAT]"
-       (fn [resp]
-         (js/console.log "Event"
-                         (clj->js resp))))
+
+  (.on channel "[CHAT]" callback)
+
   (.receive joined-channel
             "ok"
             (fn [resp]
@@ -57,10 +58,3 @@
             "error"
             (fn [resp]
               (js/console.log "Unable to join", resp))))
-
-(defn connect
-  []
-  (.connect socket)
-  (join joined-channel))
-
-(connect)
