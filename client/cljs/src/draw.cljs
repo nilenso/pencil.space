@@ -7,8 +7,8 @@
 (def path-buffer (atom nil))
 (def buffer-duration-ms 100)
 
-(def external-current-path (atom nil))
-(def external-current-path-id (atom nil))
+(defn current-time []
+  (.getTime (js/Date.)))
 
 (defn new-path [& [options]]
   (new paper/Path (clj->js (merge {:strokeColor "red"
@@ -16,8 +16,16 @@
                                    :strokeJoin  "round"
                                    :strokeCap   "round"}
                                   options))))
-(defn current-time []
-  (.getTime (js/Date.)))
+
+(defn new-path-buffer [& [options]]
+  (merge {:segments  []
+          :path-id   (.-id @current-path)
+          :timestamp (current-time)}
+         options))
+
+;; temporary: draw sent path
+(def external-current-path (atom nil))
+(def external-current-path-id (atom nil))
 
 (defn new-external-path
   [path-id segments]
@@ -26,55 +34,57 @@
 
 (defn draw-received-drawing
   [{:keys [segments path-id timestamp]}]
-  (let [segments (map (fn [s] [(+ 100 (first s)) (second s)]) segments)]
+  (let [segments (vec (map (fn [s] [(+ 100 (first s)) (second s)]) segments))]
     (if (= @external-current-path-id path-id)
       (.addSegments @external-current-path (clj->js segments))
       (new-external-path path-id segments))))
+;;;;;;
 
-(defn send-drawing
-  [path]
-  (draw-received-drawing path))
+(defn clear-path-buffer! []
+  (reset! path-buffer (new-path-buffer)))
 
-(defn send-drawing-buffered
-  [event]
-  (let [x (.-x (.-point event))
-        y (.-y (.-point event))]
-    (if (> (- (.getTime (js/Date.)) (:timestamp @path-buffer)) buffer-duration-ms)
-      (do
-        (send-drawing @path-buffer)
-        (swap! path-buffer assoc :segments [])
-        (swap! path-buffer assoc :timestamp (current-time)))
-      (swap! path-buffer update :segments conj [x y]))))
+(defn send-buffer! []
+  (if (not-empty (:segments @path-buffer))
+    (do
+      (draw-received-drawing @path-buffer)
+      (clear-path-buffer!))))
+
+(defn send-buffer-if-time! []
+  (if (> (- (current-time) (:timestamp @path-buffer)) buffer-duration-ms)
+    (send-buffer!)))
+
+(defn serialize-point
+  [point]
+  [(.-x point) (.-y point)])
+
+(defn add-to-buffer!
+  [point]
+  (swap! path-buffer update :segments conj (serialize-point point)))
+
+(defn add-to-current-path!
+  [point]
+  (-> @current-path
+      (.add point)
+      .smooth))
 
 (defn on-mouse-down
   [event]
-  (js/console.log "mouse down")
-
-  (reset! current-path (new-path))
-  (.add @current-path (.-point event))
-  (reset! path-buffer {:segments  []
-                       :path-id   (.-id @current-path)
-                       :timestamp (current-time)}))
+  (let [point (.-point event)]
+    (reset! current-path (new-path {:segments [point]}))
+    (reset! path-buffer (new-path-buffer {:segments [(serialize-point point)]}))))
 
 (defn on-mouse-drag
   [event]
-
-  (js/console.log "mouse drag")
-
-  (.add @current-path (.-point event))
-  (.smooth @current-path)
-
-  (send-drawing-buffered event))
+  (let [point (.-point event)]
+    (add-to-current-path! point)
+    (add-to-buffer! point)
+    (send-buffer-if-time!)))
 
 (defn on-mouse-up
   [event]
-
-  (js/console.log "mouse up")
-
-  (.add @current-path (.-point event))
-  (.smooth @current-path)
-
-  (send-drawing @path-buffer))
+  (let [point (.-point event)]
+    (add-to-current-path! point)
+    (send-buffer!)))
 
 (defn page []
   (let [dom-node (reagent/atom nil)]
