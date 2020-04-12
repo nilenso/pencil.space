@@ -11,6 +11,7 @@
     "highlight.js": "9.18.1",
     "paper": "^0.12.4",
     "react": "^16.13.1",
+    "phoenix": "^1.4.16",
     "react-dom": "16.13.1",
     "react-highlight.js": "1.0.7",
     "roughjs": "^4.0.4"
