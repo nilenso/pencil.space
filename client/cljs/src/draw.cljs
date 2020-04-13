@@ -35,8 +35,12 @@
   (reset! external-current-path (new-path {:segments segments})))
 
 (defn draw-received-drawing
-  [{:keys [segments path-id timestamp]}]
-  (let [segments (vec (map (fn [s] [(+ 100 (first s)) (second s)]) segments))]
+  [path-data]
+  (let [{:keys [segments path-id timestamp]} (:msg (js->clj path-data :keywordize-keys true))]
+    (js/console.log path-data)
+    (js/console.log segments)
+    (js/console.log path-id)
+    (js/console.log timestamp)
     (if (= @external-current-path-id path-id)
       (.addSegments @external-current-path (clj->js segments))
       (new-external-path path-id segments))))
@@ -114,6 +118,7 @@
         (set! (.-onMouseDown paper/view) on-mouse-down)
         (set! (.-onMouseDrag paper/view) on-mouse-drag)
 
+        (tube/connect)
         (tube/join draw-received-drawing)
 
         (new-external-path 0 []))
