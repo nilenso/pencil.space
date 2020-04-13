@@ -14,7 +14,7 @@
 * Establish a room hyperlink (shareable)
 * Allow others to join
 * Chat is available
-* >1 player allows to transition into the Game screen
+* &gt;1 player allows to transition into the Game screen
 
 **Game**
 
