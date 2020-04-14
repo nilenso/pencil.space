@@ -1,5 +1,6 @@
 {:dependencies [[re-frame "0.12.0"]
                 [metosin/reitit "0.4.2"]
+                [com.andrewmcveigh/cljs-time "0.5.2"]
 
                 ;; dev deps
                 [day8.re-frame/tracing "0.5.3"]

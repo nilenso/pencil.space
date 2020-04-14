@@ -44,3 +44,12 @@ canvas#nick-sine {
   overflow-y: scroll;
   height: 575px;
 }
+
+.chat-history li {
+  padding-bottom: 50px;
+}
+
+.chat-history img {
+  opacity: 0.8;
+  width: 20%;
+}

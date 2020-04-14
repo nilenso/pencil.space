@@ -45,9 +45,9 @@
          (.receive "timeout" #(on-timeout (js->clj %)))))))
 
 (defn join
-  [callback]
+  [event-type callback]
 
-  (.on channel "[CHAT]" callback)
+  (.on channel event-type callback)
 
   (.receive joined-channel
             "ok"

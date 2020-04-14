@@ -1,6 +1,7 @@
 (ns src.home
   (:require ["roughjs/bin/rough" :default rough]
             [re-frame.core :as re-frame]
+            [src.sundry :as sundry :refer [>evt <sub ->input]]
             [reitit.frontend.easy :as rfe]))
 
 (declare random-color)
@@ -88,9 +89,9 @@
            [:input#paperInputs1 {:placeholder "Enter a nick name...",
                                  :type "text"
                                  :auto-focus true
-                                 :on-change #(re-frame/dispatch [::nick-change (-> % .-target .-value)])}]]
+                                 :on-change #(>evt [::nick-change (->input %)])}]]
           [:div.sm-8.col
            [:canvas#nick-sine {:width "800" :height "100"}]]]
          [:button.btn-success.btn-block
-          {:on-click #(re-frame/dispatch [::navigate :src.routes/draw])}
+          {:on-click #(>evt [::navigate :src.routes/chat])}
           "Start a new game"]]]])))

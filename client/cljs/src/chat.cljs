@@ -1,20 +1,30 @@
 (ns src.chat
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]
+            [src.time :as time]
+            [src.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
             [src.tube :as tube]))
 
+(defonce ^:private tube-event-type "[CHAT]")
+
+(defn create-msg [{:keys [nick-name avatar]} msg]
+  {:body msg
+   :avatar avatar
+   :publish-time (time/now)
+   :nick-name nick-name})
+
 (re-frame/reg-event-fx
- ::send-message
- (fn [db [_ msg]]
-   {::dispatch! msg}))
+ ::send-msg
+ (fn [{:keys [db]} [_ msg]]
+   {::dispatch! (create-msg db msg)}))
 
 (re-frame/reg-fx
  ::dispatch!
  (fn [msg]
-   (tube/push "[CHAT]" (clj->js msg))))
+   (tube/push tube-event-type (->js msg))))
 
 (re-frame/reg-event-db
- ::populate-message
+ ::populate-msg
  (fn [db [_ msg]]
    (update db :chat-history conj msg)))
 
@@ -23,36 +33,40 @@
  (fn [db]
    (:chat-history db)))
 
-(defn receive-message
+(defn receive-msg
   [resp]
-  (re-frame/dispatch [::populate-message (:msg (js->clj resp :keywordize-keys true))]))
+  (>evt [::populate-msg (->clj resp)]))
 
 (defn chat-box []
   (let [value (reagent/atom nil)]
     (fn []
       [:div
-       [:textarea.no-resize {:placeholder "Type your message..."
-                             :on-change #(reset! value (-> % .-target .-value))}]
+       [:textarea.no-resize {:placeholder "Type your msg..."
+                             :on-change #(reset! value (->input %))}]
 
        [:button
-        {:on-click #(re-frame/dispatch [::send-message @value])}
+        {:on-click #(>evt [::send-msg @value])}
         "Send"]])))
 
 (defn history
-  [messages]
+  [msgs]
   [:ul
-   (for [message messages]
+   (for [msg msgs]
      ^{:key (str (random-uuid))}
-     [:li message])])
+     [:li (:body msg)
+      [:img {:src (:avatar msg)}]
+      [:span (str " by " (:nick-name msg))]
+      [:span (str " at " (time/epoch->local (:publish-time msg) true))]])])
 
 (defn page []
-  (let [_ (tube/connect)
-        _ (tube/join receive-message)
-        messages (re-frame/subscribe [::chat-history])]
-    (fn []
-      [:div.chat
-       [:div.sm-6.md-6.clg-2.col
-        [:div.chat-history
-         (history @messages)]]
-       [:div.form-group.chat-box
-        [chat-box]]])))
+  (fn []
+    [:div.chat
+     [:div.sm-6.md-6.clg-2.col
+      [:div.chat-history
+       [history (<sub [::chat-history])]]]
+     [:div.form-group.chat-box
+      [chat-box]]]))
+
+(defn mount []
+  (tube/connect)
+  (tube/join tube-event-type receive-msg))

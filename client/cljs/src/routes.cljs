@@ -12,6 +12,7 @@
             [src.home :as home]
             [src.lobby :as lobby]
             [src.subs]
+            [src.tube :as tube]
             [src.chat :as chat]
             [src.sundry :as sundry]))
 
@@ -24,18 +25,23 @@
      [{:start (fn [& params] (js/console.log "Entering home page"))
        :stop  (fn [& params] (js/console.log "Leaving home page"))}]}]
 
-   ["game"
+   ["chat"
     {:name ::chat
      :view chat/page
      :controllers
-     [{:start (fn [& params] (js/console.log "Entering sub-page 2"))
+     [{:start (fn [& params]
+                (chat/mount)
+                (js/console.log "Entering sub-page 2"))
+
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
    ["draw"
     {:name ::draw
      :view draw/page
      :controllers
-     [{:start (fn [& params] (js/console.log "Entering sub-page 2"))
+     [{:start (fn [& params]
+                (draw/mount)
+                (js/console.log "Entering sub-page 2"))
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
 
 (def router

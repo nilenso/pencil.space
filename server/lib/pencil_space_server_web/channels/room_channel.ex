@@ -7,10 +7,17 @@ defmodule PencilSpaceServerWeb.RoomChannel do
     {:ok, socket}
   end
 
-  def handle_in(message, body, socket) do
+  def handle_in("[CHAT]", body, socket) do
     # 1. player starts drawing
     # 2. drawing is broadcasted
-    broadcast!(socket, message, %{msg: body})
+    broadcast!(socket, "[CHAT]", body)
+    {:noreply, socket}
+  end
+
+  def handle_in("[DRAW]", body, socket) do
+    # 1. player starts drawing
+    # 2. drawing is broadcasted
+    broadcast!(socket, "[DRAW]", body)
     {:noreply, socket}
   end
 end

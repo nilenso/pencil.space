@@ -3,7 +3,10 @@
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
+            [src.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
             [src.tube :as tube]))
+
+(defonce ^:private tube-event-type "[DRAW]")
 
 (def current-path (atom nil))
 (def path-buffer (atom nil))
@@ -56,16 +59,15 @@
 (re-frame/reg-fx
  ::send!
  (fn [path]
-   (tube/push "[PATH]" path)))
+   (tube/push "[DRAW]" path)))
 
 (defn clear-path-buffer! []
   (reset! path-buffer (new-path-buffer)))
 
 (defn send-buffer! []
-  (if (not-empty (:segments @path-buffer))
-    (do
-      (re-frame/dispatch [::send-new-path (clj->js @path-buffer)])
-      (clear-path-buffer!))))
+  (when (not-empty (:segments @path-buffer))
+    (>evt [::send-new-path (clj->js @path-buffer)])
+    (clear-path-buffer!)))
 
 (defn send-buffer-if-time! []
   (if (> (- (current-time) (:timestamp @path-buffer)) buffer-duration-ms)
@@ -118,12 +120,13 @@
         (set! (.-onMouseDown paper/view) on-mouse-down)
         (set! (.-onMouseDrag paper/view) on-mouse-drag)
 
-        (tube/connect)
-        (tube/join draw-received-drawing)
-
         (new-external-path 0 []))
 
       :reagent-render
       (fn []
         [:div.board
          [:canvas#drawing-board]])})))
+
+(defn mount []
+  (tube/connect)
+  (tube/join tube-event-type receive-msg))
