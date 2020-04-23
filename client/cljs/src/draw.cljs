@@ -39,7 +39,7 @@
 
 (defn draw-received-drawing
   [path-data]
-  (let [{:keys [segments path-id timestamp]} (:msg (js->clj path-data :keywordize-keys true))]
+  (let [{:keys [segments path-id timestamp]} (js->clj path-data :keywordize-keys true)]
     (js/console.log path-data)
     (js/console.log segments)
     (js/console.log path-id)
@@ -66,7 +66,7 @@
 
 (defn send-buffer! []
   (when (not-empty (:segments @path-buffer))
-    (>evt [::send-new-path (clj->js @path-buffer)])
+    (>evt [::send-new-path @path-buffer])
     (clear-path-buffer!)))
 
 (defn send-buffer-if-time! []
@@ -119,7 +119,6 @@
         (set! (.-onMouseUp paper/view)   on-mouse-up)
         (set! (.-onMouseDown paper/view) on-mouse-down)
         (set! (.-onMouseDrag paper/view) on-mouse-drag)
-
         (new-external-path 0 []))
 
       :reagent-render
@@ -129,4 +128,4 @@
 
 (defn mount []
   (tube/connect)
-  (tube/join tube-event-type receive-msg))
+  (tube/join tube-event-type draw-received-drawing))
