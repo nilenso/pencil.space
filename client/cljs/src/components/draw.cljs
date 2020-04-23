@@ -3,7 +3,7 @@
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
-            [src.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
+            [src.utils.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
             [src.tube :as tube]))
 
 (defonce ^:private tube-event-type "[DRAW]")

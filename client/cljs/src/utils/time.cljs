@@ -1,4 +1,4 @@
-(ns src.time
+(ns src.utils.time
   (:require [cljs-time.core :as t]
             [cljs-time.format :as tf]
             [cljs-time.coerce :as tc]))

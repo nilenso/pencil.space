@@ -1,8 +1,8 @@
-(ns src.chat
+(ns src.components.chat
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]
-            [src.time :as time]
-            [src.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
+            [src.utils.time :as time]
+            [src.utils.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
             [src.tube :as tube]))
 
 (defonce ^:private tube-event-type "[CHAT]")

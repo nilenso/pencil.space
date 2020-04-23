@@ -1,4 +1,4 @@
-(ns src.lobby
+(ns src.components.lobby
   (:require [re-frame.core :as re-frame]))
 
 (defn page []

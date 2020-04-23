@@ -8,13 +8,13 @@
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfe]
             [src.db :as db]
-            [src.draw :as draw]
-            [src.home :as home]
-            [src.lobby :as lobby]
+            [src.components.draw :as draw]
+            [src.components.home :as home]
+            [src.components.lobby :as lobby]
             [src.subs]
             [src.tube :as tube]
-            [src.chat :as chat]
-            [src.sundry :as sundry]))
+            [src.components.chat :as chat]
+            [src.utils.sundry :as sundry]))
 
 (def routes
   ["/"
