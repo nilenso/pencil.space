@@ -11,7 +11,7 @@
 
 (def current-path (atom nil))
 (def path-buffer (atom nil))
-(def buffer-duration-ms 100)
+(def buffer-duration-ms 30)
 
 (defn current-time []
   (.getTime (js/Date.)))
@@ -41,10 +41,6 @@
 (defn draw-received-drawing
   [path-data]
   (let [{:keys [segments path-id timestamp]} (js->clj path-data :keywordize-keys true)]
-    (js/console.log path-data)
-    (js/console.log segments)
-    (js/console.log path-id)
-    (js/console.log timestamp)
     (if (= @external-current-path-id path-id)
       (.addSegments @external-current-path (clj->js segments))
       (new-external-path path-id segments))))
@@ -110,10 +106,7 @@
 (defn page []
   (let [dom-node (reagent/atom nil)]
     (reagent/create-class
-     {:component-did-update
-      (fn [this] (js/console.log "did update"))
-
-      :component-did-mount
+     {:component-did-mount
       (fn [this]
         (reset! dom-node (reagent-dom/dom-node this))
         (.setup paper (js/document.getElementById "drawing-board"))
