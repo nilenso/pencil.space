@@ -8,11 +8,9 @@ html {
 }
 
 .board {
-  width: 30%;
-  height: 50%;
   background-color: #fade91;
   margin: auto;
-  margin-top: 5%;
+  margin-top: 5px;
   padding: 10px;
 }
 
@@ -33,23 +31,67 @@ canvas#nick-sine {
 }
 
 .chat {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  color: #434651;
+ // margin-left: 2%;
 }
 
 .chat-history {
-  padding: 30px 30px 20px;
-  border-bottom: 2px solid white;
   overflow-y: scroll;
   height: 575px;
+  background: white;
+}
+
+.chat-history ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0px;
 }
 
 .chat-history li {
-  padding-bottom: 50px;
+  padding: 3px 8px 8px 8px;
+}
+
+.chat-history li:nth-child(even) {
+  background: #bcd0ff;
+}
+
+.chat-history li:nth-child(odd) {
+  background: #dce7ff;
 }
 
 .chat-history img {
   opacity: 0.8;
   width: 20%;
+}
+
+.chat-box {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.chat-input {
+  border-color: #bb800c;
+}
+
+.chat-submit {
+  box-shadow: none;
+  background: #1B998B;
+  border-color: transparent;
+  color: white;
+  transition: all 0.3s;
+}
+
+.chat-submit:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.chat-submit:active {
+  border-color: transparent;
+  background: #18897d;
+  outline: none;
+  box-shadow: none;
+}
+
+.chat-submit:focus {
+  border-color: transparent;
 }

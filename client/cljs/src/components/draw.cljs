@@ -4,6 +4,7 @@
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
             [src.utils.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
+            [src.components.chat :as chat]
             [src.tube :as tube]))
 
 (defonce ^:private tube-event-type "[DRAW]")
@@ -123,8 +124,17 @@
 
       :reagent-render
       (fn []
-        [:div.board
-         [:canvas#drawing-board]])})))
+        [:div.row
+         [:div.xs-1.sm-2.md-3]
+         [:div.xs-10.sm-8.md-6
+          [:div.board.row
+           [:div.xs-12.lg-8
+            [:canvas#drawing-board :resize]]
+           [:div.xs-12.lg-4
+            [:div.chat
+             [chat/history (repeat 20 (chat/create-msg {} "hello"))]
+             [chat/chat-box]]]]]
+         [:div.xs-1.sm-2.md-3]])})))
 
 (defn mount []
   (tube/connect)

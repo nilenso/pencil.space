@@ -40,30 +40,27 @@
 (defn chat-box []
   (let [value (reagent/atom nil)]
     (fn []
-      [:div
-       [:textarea.no-resize {:placeholder "Type your msg..."
-                             :on-change #(reset! value (->input %))}]
+      [:form.form-group.row.chat-box {:on-submit #(>evt [::send-msg @value])}
+       [:input.no-resize.chat-input.col-9 {:placeholder "Type your msg..."
+                                :on-change #(reset! value (->input %))}]
 
-       [:button
-        {:on-click #(>evt [::send-msg @value])}
-        "Send"]])))
+       [:button.chat-submit.border-4.col-3 {:type :submit} "Send"]])))
 
 (defn history
   [msgs]
-  [:ul
-   (for [msg msgs]
-     ^{:key (str (random-uuid))}
-     [:li (:body msg)
-      [:img {:src (:avatar msg)}]
-      [:span (str " by " (:nick-name msg))]
-      [:span (str " at " (time/epoch->local (:publish-time msg) true))]])])
+  [:div.chat-history
+   [:ul
+    (for [msg msgs]
+      ^{:key (str (random-uuid))}
+      [:li (:body msg)
+       [:img {:src (:avatar msg)}]
+       [:span (str " by " (:nick-name msg))]
+       [:span (str " at " (time/epoch->local (:publish-time msg) true))]])]])
 
 (defn page []
   (fn []
-    [:div.chat
-     [:div.sm-6.md-6.clg-2.col
-      [:div.chat-history
-       [history (<sub [::chat-history])]]]
+    [:div
+     [history (<sub [::chat-history])]
      [:div.form-group.chat-box
       [chat-box]]]))
 
