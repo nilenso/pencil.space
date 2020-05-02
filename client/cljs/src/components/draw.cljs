@@ -118,16 +118,16 @@
       :reagent-render
       (fn []
         [:div.row
-         [:div.xs-1.sm-2.md-3]
-         [:div.xs-10.sm-8.md-6
+         [:div.xs-1.sm-2.md-2]
+         [:div.xs-10.sm-8.md-8
           [:div.board.row
            [:div.xs-12.lg-8
             [:canvas#drawing-board :resize]]
            [:div.xs-12.lg-4
             [:div.chat
-             [chat/history (repeat 20 (chat/create-msg {} "hello"))]
+             [chat/history (<sub [::chat/chat-history])]
              [chat/chat-box]]]]]
-         [:div.xs-1.sm-2.md-3]])})))
+         [:div.xs-1.sm-2.md-2]])})))
 
 (defn mount []
   (tube/connect)

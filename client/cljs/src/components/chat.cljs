@@ -40,9 +40,12 @@
 (defn chat-box []
   (let [value (reagent/atom nil)]
     (fn []
-      [:form.form-group.row.chat-box {:on-submit #(>evt [::send-msg @value])}
+      [:form.form-group.row.chat-box {:on-submit (fn []
+                                                   (>evt [::send-msg @value])
+                                                   (reset! value ""))}
        [:input.no-resize.chat-input.col-9 {:placeholder "Type your msg..."
-                                :on-change #(reset! value (->input %))}]
+                                           :on-change   #(reset! value (->input %))
+                                           :value       @value}]
 
        [:button.chat-submit.border-4.col-3 {:type :submit} "Send"]])))
 
