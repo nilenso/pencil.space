@@ -122,13 +122,12 @@
          [:div.xs-10.sm-8.md-8
           [:div.board.row
            [:div.xs-12.lg-8
-            [:canvas#drawing-board :resize]]
+            [:canvas#drawing-board]]
            [:div.xs-12.lg-4
-            [:div.chat
-             [chat/history (<sub [::chat/chat-history])]
-             [chat/chat-box]]]]]
+            [chat/page]]]]
          [:div.xs-1.sm-2.md-2]])})))
 
 (defn mount []
   (tube/connect)
-  (tube/join tube-event-type draw-received-drawing))
+  (tube/join tube-event-type draw-received-drawing)
+  (chat/mount))

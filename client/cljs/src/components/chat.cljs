@@ -62,10 +62,9 @@
 
 (defn page []
   (fn []
-    [:div
+    [:div.chat
      [history (<sub [::chat-history])]
-     [:div.form-group.chat-box
-      [chat-box]]]))
+     [chat-box]]))
 
 (defn mount []
   (tube/connect)

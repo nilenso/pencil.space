@@ -40,7 +40,6 @@
      :view draw/page
      :controllers
      [{:start (fn [& params]
-                (chat/mount)
                 (draw/mount)
                 (js/console.log "Entering sub-page 2"))
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
