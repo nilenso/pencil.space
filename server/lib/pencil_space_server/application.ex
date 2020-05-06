@@ -10,6 +10,8 @@ defmodule PencilSpaceServer.Application do
     children = [
       # Start the Ecto repository
       PencilSpaceServer.Repo,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: MyApp.PubSub},
       # Start the endpoint when the application starts
       PencilSpaceServerWeb.Endpoint
       # Starts a worker by calling: PencilSpaceServer.Worker.start_link(arg)
