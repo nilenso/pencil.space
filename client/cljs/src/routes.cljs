@@ -35,6 +35,10 @@
 
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
+   ["lobby"
+    {:name ::lobby
+     :view lobby/page}]
+
    ["draw"
     {:name ::draw
      :view draw/page

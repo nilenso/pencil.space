@@ -3,4 +3,4 @@
 
 (defn page []
   [:div
-   [:h1 "This is sub-page 1"]])
+   [:h1 "Lobby page"]])
