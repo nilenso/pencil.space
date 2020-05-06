@@ -76,7 +76,7 @@
   (rfe/start!
    router
    on-navigate
-   {:use-fragment true}))
+   {:use-fragment false}))
 
 (defn mount [page-root]
   (re-frame/clear-subscription-cache!)
