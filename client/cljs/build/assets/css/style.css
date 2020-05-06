@@ -44,10 +44,25 @@ canvas#nick-sine {
   flex-direction: column-reverse;
 }
 
+@media only screen and (max-width: 768px)
+{
+  .chat-history {
+    height: 200px;
+  }
+}
+
 .chat-history ul {
   margin-top: 0;
   margin-bottom: 0;
   padding-left: 0px;
+}
+
+@media only screen and (max-width: 768px)
+{
+  .xs-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 .chat-history li {
@@ -82,6 +97,7 @@ canvas#nick-sine {
   border-color: transparent;
   color: white;
   transition: all 0.3s;
+  margin-bottom: 0px;
 }
 
 .chat-submit:hover {
