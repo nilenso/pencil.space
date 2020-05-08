@@ -15,7 +15,7 @@ config :pencil_space_server, PencilSpaceServerWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "WUo5Hii8tDVqXE2NZFoT4agUrSonYbEqTQ8xoBcqOHHawG/N/P06Pl5sBBITcTer",
   render_errors: [view: PencilSpaceServerWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: PencilSpaceServer.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: PencilSpaceServer.PubSub,
   live_view: [signing_salt: "z7fNXkUN"]
 
 # Configures Elixir's Logger
