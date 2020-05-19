@@ -1,8 +1,10 @@
 (ns src.components.home
   (:require ["roughjs/bin/rough" :default rough]
             [re-frame.core :as re-frame]
-            [src.utils.sundry :as sundry :refer [>evt <sub ->input]]
-            [reitit.frontend.easy :as rfe]))
+            [reitit.frontend.easy :as rfe]
+            [src.sundry :refer [>evt <sub
+                                ->js ->input
+                                random-hex-color]]))
 
 (declare random-color)
 (declare points)
@@ -29,7 +31,7 @@
                                                     "nick-sine")
                                    "image/jpeg,"
                                    0.1))
-    ::draw-sine! [(empty? name) (random-color)]}))
+    ::draw-sine! [(empty? name) (random-hex-color)]}))
 
 (re-frame/reg-fx
  ::draw-sine!
@@ -37,22 +39,15 @@
    (if clear?
      (clear-canvas (canvas))
      (.curve (nick-canvas)
-             (clj->js (points))
-             (clj->js {:roughness 1.2,
-                       :stroke color,
-                       :strokeWidth 5})))))
+             (->js (points))
+             (->js {:roughness 1.2,
+                    :stroke color,
+                    :strokeWidth 5})))))
 
 (re-frame/reg-sub
  ::nick-name
  (fn [{:keys [db] :as cofx}]
    (:nick-name db)))
-
-(defn random-color
-  []
-  (str "#" (-> (.random js/Math)
-               (* (bit-shift-left 1 24))
-               (bit-or 0)
-               (.toString 16))))
 
 (defn canvas
   []
@@ -77,7 +72,7 @@
           (range 0 20)))
 
 (defn page []
-  (let [nick (re-frame/subscribe [::nick-name])]
+  (let [nick (<sub [::nick-name])]
     (fn []
       [:div.row.flex-center
        [:div.sm-4.col

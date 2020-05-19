@@ -1,8 +1,10 @@
 (ns src.components.chat
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]
-            [src.utils.time :as time]
-            [src.utils.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
+            [src.sundry :refer [>evt <sub
+                                ->clj ->js
+                                ->input
+                                now epoch->local]]
             [src.tube :as tube]))
 
 (defonce ^:private tube-event-type "[CHAT]")
@@ -10,7 +12,7 @@
 (defn create-msg [{:keys [nick-name avatar]} msg]
   {:body msg
    :avatar avatar
-   :publish-time (time/now)
+   :publish-time (now)
    :nick-name nick-name})
 
 (re-frame/reg-event-fx
@@ -59,8 +61,8 @@
       [:li (:body msg)
        [:img {:src (:avatar msg)}]
        [:span (str " by " (:nick-name msg))]
-       [:span (str " at " (time/epoch->local (:publish-time msg)
-                                             true))]])]])
+       [:span (str " at " (epoch->local (:publish-time msg)
+                                        true))]])]])
 
 (defn page []
   (fn []

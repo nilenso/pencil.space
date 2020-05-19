@@ -1,10 +1,10 @@
 (ns src.components.draw
-  (:require["paper" :as paper]
+  (:require ["paper" :as paper]
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
-            [src.utils.sundry :as sundry :refer [>evt <sub ->clj ->js ->input]]
             [src.components.chat :as chat]
+            [src.sundry :refer [>evt ->clj ->js]]
             [src.tube :as tube]))
 
 (defonce ^:private tube-event-type "[DRAW]")
@@ -40,9 +40,9 @@
 
 (defn draw-received-drawing
   [path-data]
-  (let [{:keys [segments path-id timestamp]} (js->clj path-data :keywordize-keys true)]
+  (let [{:keys [segments path-id timestamp]} (->clj path-data)]
     (if (= @external-current-path-id path-id)
-      (.addSegments @external-current-path (clj->js segments))
+      (.addSegments @external-current-path (->js segments))
       (new-external-path path-id segments))))
 ;;;;;;
 
@@ -67,7 +67,9 @@
     (clear-path-buffer!)))
 
 (defn send-buffer-if-time! []
-  (if (> (- (current-time) (:timestamp @path-buffer)) buffer-duration-ms)
+  (if (> (- (current-time)
+            (:timestamp @path-buffer))
+         buffer-duration-ms)
     (send-buffer!)))
 
 (defn serialize-point

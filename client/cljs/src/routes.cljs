@@ -7,14 +7,13 @@
             [reitit.frontend :as rf]
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfe]
-            [src.db :as db]
+            [src.components.chat :as chat]
             [src.components.draw :as draw]
             [src.components.home :as home]
             [src.components.lobby :as lobby]
-            [src.subs]
-            [src.tube :as tube]
-            [src.components.chat :as chat]
-            [src.utils.sundry :as sundry]))
+            [src.db :as db]
+            [src.sundry :refer [>evt <sub]]
+            [src.tube :as tube]))
 
 (def routes
   ["/"
@@ -66,10 +65,10 @@
 
 (defn on-navigate [new-match]
   (when new-match
-    (re-frame/dispatch [::navigated new-match])))
+    (>evt [::navigated new-match])))
 
 (defn router-component [{:keys [router]}]
-  (let [current-route @(re-frame/subscribe [::current-route])]
+  (let [current-route (<sub [::current-route])]
     [:div
      (when current-route
        [(-> current-route :data :view)])]))
