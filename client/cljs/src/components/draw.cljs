@@ -56,7 +56,7 @@
 (re-frame/reg-fx
  ::send!
  (fn [path]
-   (tube/push "[DRAW]" path)))
+   (tube/push tube-event-type path)))
 
 (defn clear-path-buffer! []
   (reset! path-buffer (new-path-buffer)))

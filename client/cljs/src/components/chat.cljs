@@ -40,7 +40,8 @@
 (defn chat-box []
   (let [value (reagent/atom nil)]
     (fn []
-      [:form.form-group.row.chat-box {:on-submit (fn []
+      [:form.form-group.row.chat-box {:on-submit (fn [e]
+                                                   (.preventDefault e)
                                                    (>evt [::send-msg @value])
                                                    (reset! value ""))}
        [:input.no-resize.chat-input.col-9 {:placeholder "Type your msg..."
@@ -58,7 +59,8 @@
       [:li (:body msg)
        [:img {:src (:avatar msg)}]
        [:span (str " by " (:nick-name msg))]
-       [:span (str " at " (time/epoch->local (:publish-time msg) true))]])]])
+       [:span (str " at " (time/epoch->local (:publish-time msg)
+                                             true))]])]])
 
 (defn page []
   (fn []
