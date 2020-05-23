@@ -7,5 +7,6 @@ defmodule PencilSpaceServerWeb.Router do
 
   scope "/api", PencilSpaceServerWeb do
     pipe_through :api
+    post  "/game", GameController, :create
   end
 end
