@@ -11,10 +11,8 @@ defmodule PencilSpaceServer.GameMonitor do
 
   def new(name) do
     case GenServer.whereis(ref(name)) do
-      nil ->
-        start_game(name)
-      _board ->
-        {:error, :game_exists}
+      nil -> start_game(name)
+      _game -> {:error, :game_exists}
     end
   end
 
