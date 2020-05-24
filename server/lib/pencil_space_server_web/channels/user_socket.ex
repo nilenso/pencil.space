@@ -3,7 +3,7 @@ defmodule PencilSpaceServerWeb.UserSocket do
   alias PencilSpaceServerWeb.RoomChannel
 
   ## Channels
-  channel "room:*", RoomChannel
+  channel "game:*", GameChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
