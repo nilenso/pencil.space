@@ -9,10 +9,16 @@ defmodule PencilSpaceServer.GameMonitor do
 
   # Client API
 
-  def new(name) do
+  def start(name) do
+    DynamicSupervisor.start_child(GameSupervisor, {__MODULE__, name: ref(name)})
+  end
+
+  def exists?(name) do
     case GenServer.whereis(ref(name)) do
-      nil -> start_game(name)
-      _game -> {:error, :game_exists}
+      nil ->
+        {:error, :does_not_exist}
+      _game ->
+        {:ok, :exists}
     end
   end
 
@@ -28,10 +34,6 @@ defmodule PencilSpaceServer.GameMonitor do
 
   def state(%GameMonitor{history: [state | _]}) do
     state
-  end
-
-  defp start_game(name) do
-    DynamicSupervisor.start_child(GameSupervisor, {__MODULE__, name: ref(name)})
   end
 
   defp ref(name) do

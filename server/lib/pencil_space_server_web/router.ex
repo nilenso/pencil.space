@@ -5,8 +5,10 @@ defmodule PencilSpaceServerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", PencilSpaceServerWeb do
+  scope "/api/v1", PencilSpaceServerWeb do
     pipe_through :api
+
     post  "/game", GameController, :create
+    post  "/game/:id", GameController, :join
   end
 end
