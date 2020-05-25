@@ -6,13 +6,13 @@ defmodule PencilSpaceServerWeb.GameController do
   use PencilSpaceServerWeb, :controller
   alias PencilSpaceServer.{GameMonitor}
 
-  def create(conn, _params) do
+  def create(conn, %{"host" => host}) do
     game_id = Nanoid.generate()
 
     case GameMonitor.start(game_id) do
-      {:ok, _pid} ->
+      {:ok, pid} ->
         conn
-        |> put_status(200)
+        |> put_status(201)
         |> json(%{id: game_id})
       {:error} ->
         conn
@@ -25,7 +25,7 @@ defmodule PencilSpaceServerWeb.GameController do
     case GameMonitor.presence(game_id) do
       {:ok, :exists} ->
         conn
-        |> put_status(200)
+        |> put_status(202)
         |> json(%{id: game_id})
       {:error, :does_not_exist} ->
         conn

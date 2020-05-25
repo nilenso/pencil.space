@@ -3,6 +3,11 @@ defmodule PencilSpaceServer.GameState do
   Game state for keeping a log of the state changes.
   """
 
-  defstruct host: :bot,
+  defstruct host: nil,
             participants: []
+
+  def add_host(state, new_host) do
+    state
+    |> Map.put(:host, new_host)
+  end
 end

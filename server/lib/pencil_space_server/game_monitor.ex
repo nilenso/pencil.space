@@ -5,7 +5,6 @@ defmodule PencilSpaceServer.GameMonitor do
 
   use GenServer
   alias PencilSpaceServer.{GameMonitor, GameSupervisor, GameState, GameRegistry}
-  defstruct history: [%GameState{}]
 
   # Client API
 
@@ -22,8 +21,24 @@ defmodule PencilSpaceServer.GameMonitor do
     end
   end
 
+  def add_host(name, host) do
+    GenServer.cast(ref(name), host)
+  end
+
+  def host(name) do
+    GenServer.call(ref(name), :host)
+  end
+
   def start_link(options) do
-    GenServer.start_link(__MODULE__, %GameMonitor{}, options)
+    GenServer.start_link(__MODULE__, %GameState{}, options)
+  end
+
+  def handle_cast(%{host: host}, game) do
+    {:noreply, GameState.add_host(game, host)}
+  end
+
+  def handle_call(:host, _from, %{host: host}) do
+    {:reply, host, host}
   end
 
   def init(game) do
@@ -31,10 +46,6 @@ defmodule PencilSpaceServer.GameMonitor do
   end
 
   # Helpers
-
-  def state(%GameMonitor{history: [state | _]}) do
-    state
-  end
 
   defp ref(name) do
     {:via, Registry, {GameRegistry, name}}
