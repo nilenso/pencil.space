@@ -22,7 +22,7 @@ defmodule PencilSpaceServerWeb.GameController do
   end
 
   def join(conn, %{"id" => game_id}) do
-    case GameMonitor.exists?(game_id) do
+    case GameMonitor.presence(game_id) do
       {:ok, :exists} ->
         conn
         |> put_status(200)

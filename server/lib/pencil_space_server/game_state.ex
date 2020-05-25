@@ -3,6 +3,6 @@ defmodule PencilSpaceServer.GameState do
   Game state for keeping a log of the state changes.
   """
 
-  defstruct id: 1,
-            host: :bot
+  defstruct host: :bot,
+            participants: []
 end

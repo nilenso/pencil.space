@@ -13,7 +13,7 @@ defmodule PencilSpaceServer.GameMonitor do
     DynamicSupervisor.start_child(GameSupervisor, {__MODULE__, name: ref(name)})
   end
 
-  def exists?(name) do
+  def presence(name) do
     case GenServer.whereis(ref(name)) do
       nil ->
         {:error, :does_not_exist}

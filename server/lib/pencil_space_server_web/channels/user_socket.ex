@@ -1,6 +1,6 @@
 defmodule PencilSpaceServerWeb.UserSocket do
   use Phoenix.Socket
-  alias PencilSpaceServerWeb.RoomChannel
+  alias PencilSpaceServerWeb.GameChannel
 
   ## Channels
   channel "game:*", GameChannel
