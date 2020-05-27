@@ -1,4 +1,4 @@
-defmodule PencilSpaceServer.GameState do
+defmodule PencilSpaceServer.Game.State do
   @moduledoc """
   Game state for keeping a log of the state changes.
   """
@@ -6,8 +6,7 @@ defmodule PencilSpaceServer.GameState do
   defstruct host: nil,
             participants: []
 
-  def add_host(state, new_host) do
-    state
-    |> Map.put(:host, new_host)
+  def update(state, key, value) do
+    state |> Map.put(key, value)
   end
 end

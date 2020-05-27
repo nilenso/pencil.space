@@ -4,33 +4,25 @@ defmodule PencilSpaceServerWeb.GameController do
   """
 
   use PencilSpaceServerWeb, :controller
-  alias PencilSpaceServer.{GameMonitor}
+  alias PencilSpaceServer.{Game}
+  import PencilSpaceServerWeb.ControllerHelpers
 
-  def create(conn, %{"host" => host}) do
-    game_id = Nanoid.generate()
-
-    case GameMonitor.start(game_id) do
-      {:ok, pid} ->
-        conn
-        |> put_status(201)
-        |> json(%{id: game_id})
+  def create(conn, %{"host" => %{"id" => _id, "name" => _name, "avatar" => _avatar}} = host) do
+    case Game.start do
+      {:ok, name} ->
+        Game.update(:host, name, host)
+        render_json(conn, 201, %{name: name})
       {:error} ->
-        conn
-        |> put_status(503)
-        |> json(%{error: "Could not create a new game"})
+        render_json(conn, 503, %{error: "Could not create a new game"})
     end
   end
 
-  def join(conn, %{"id" => game_id}) do
-    case GameMonitor.presence(game_id) do
+  def join(conn, %{"name" => name}) do
+    case Game.presence(name) do
       {:ok, :exists} ->
-        conn
-        |> put_status(202)
-        |> json(%{id: game_id})
+        render_json(conn, 202, %{name: name})
       {:error, :does_not_exist} ->
-        conn
-        |> put_status(404)
-        |> json(%{error: "Game with name: #{game_id} does not exist"})
+        render_json(conn, 404, %{error: "Game with name: #{name} does not exist"})
     end
   end
 end

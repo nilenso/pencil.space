@@ -11,8 +11,8 @@ defmodule PencilSpaceServer.Application do
       PencilSpaceServer.Repo,
       {Phoenix.PubSub, name: PencilSpaceServer.PubSub},
       PencilSpaceServerWeb.Endpoint,
-      {Registry, keys: :unique, name: PencilSpaceServer.GameRegistry},
-      {DynamicSupervisor, strategy: :one_for_one, name: PencilSpaceServer.GameSupervisor}
+      {Registry, keys: :unique, name: PencilSpaceServer.Game.Registry},
+      {DynamicSupervisor, strategy: :one_for_one, name: PencilSpaceServer.Game.Supervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
