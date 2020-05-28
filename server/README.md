@@ -1,6 +1,18 @@
-# PencilSpaceServer
+# pencil.space (server)
 
-## Local Dev Setup
+## Local dev setup
+
+To install Elixir:
+
+```
+brew upgrade
+brew install elixir@1.10.3
+
+$ iex -v
+IEx 1.10.3
+```
+
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
@@ -10,12 +22,22 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Gotchas
 
-## Learn more
+Installing `elixir` with `brew` on OS X may land you with issues around OpenSSL. To fix, switch back:
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+```bash
+brew switch openssl 1.0.2s
+```
+
+
+### REPL
+
+```bash
+iex -S mix
+```
+
+...with a running server at [`localhost:4000`](http://localhost:4000)
+```bash
+iex -S mix phx.server
+```
