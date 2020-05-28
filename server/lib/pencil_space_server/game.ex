@@ -20,8 +20,32 @@ defmodule PencilSpaceServer.Game do
     end
   end
 
+  @doc """
+  Synchronously updates the host on the Game state.
+
+  Returns a Game.State.
+
+  ## Examples
+
+      iex> PencilSpaceServer.Game.update("name-of-game", %{host: 1})
+      %PencilSpaceServer.Game.State{host: 1}
+  """
   def update(name, %{host: host}) do
     GenServer.call(ref(name), {:host, host})
+  end
+
+  @doc """
+  Synchronously updates the participants on the Game state.
+
+  Returns a Game.State.
+
+  ## Examples
+
+      iex> PencilSpaceServer.Game.update("name-of-game", %{participant: 1})
+      %PencilSpaceServer.Game.State{participant: 1}
+  """
+  def update(name, %{participant: participant}) do
+    GenServer.call(ref(name), {:participant, participant})
   end
 
   defp whereis(name) do

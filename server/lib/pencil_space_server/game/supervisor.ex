@@ -14,7 +14,6 @@ defmodule PencilSpaceServer.Game.Supervisor do
   end
 
   def supervise(spec) do
-    IO.inspect spec
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
 end

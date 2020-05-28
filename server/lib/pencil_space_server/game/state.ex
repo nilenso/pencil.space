@@ -6,7 +6,13 @@ defmodule PencilSpaceServer.Game.State do
   defstruct host: nil,
             participants: []
 
-  def update(state, key, value) do
-    state |> Map.put(key, value)
+  def update(state, :host, value) do
+    state
+    |> Map.put(:host, value)
+  end
+
+  def update(state, :participant, value) do
+    state
+    |> Map.put(:participants, [value | state.participants])
   end
 end
