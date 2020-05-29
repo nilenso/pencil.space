@@ -8,20 +8,39 @@
 use Mix.Config
 
 config :pencil_space_server,
-  ecto_repos: [PencilSpaceServer.Repo]
+       ecto_repos: [PencilSpaceServer.Repo]
 
 # Configures the endpoint
-config :pencil_space_server, PencilSpaceServerWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "WUo5Hii8tDVqXE2NZFoT4agUrSonYbEqTQ8xoBcqOHHawG/N/P06Pl5sBBITcTer",
-  render_errors: [view: PencilSpaceServerWeb.ErrorView, accepts: ~w(json)],
-  pubsub_server: PencilSpaceServer.PubSub,
-  live_view: [signing_salt: "z7fNXkUN"]
+config :pencil_space_server,
+       PencilSpaceServerWeb.Endpoint,
+       url: [
+         host: "localhost"
+       ],
+       secret_key_base: "WUo5Hii8tDVqXE2NZFoT4agUrSonYbEqTQ8xoBcqOHHawG/N/P06Pl5sBBITcTer",
+       render_errors: [
+         view: PencilSpaceServerWeb.ErrorView,
+         accepts: ~w(json)
+       ],
+       pubsub_server: PencilSpaceServer.PubSub,
+       compilers: [:phoenix, :gettext] ++ Mix.compilers ++ [:phoenix_swagger],
+       live_view: [
+         signing_salt: "z7fNXkUN"
+       ]
+
+config :pencil_space_server,
+       :phoenix_swagger,
+       swagger_files: %{
+         "priv/static/swagger.json" => [
+           router: PencilSpaceServerWeb.Router,
+           endpoint: PencilSpaceServerWeb.Endpoint
+         ]
+       }
 
 # Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+config :logger,
+       :console,
+       format: "$time $metadata[$level] $message\n",
+       metadata: [:request_id]
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason

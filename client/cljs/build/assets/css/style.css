@@ -5,25 +5,113 @@ html {
     background-color: #eee;
     color: black;
     font-family: 'mono';
-    /*background-color: #70C4B1;*/
-    /*background-image:linear-gradient(#a0d1cf,#70C4B1);*/
-    /*overflow-x: scroll;*/
 }
 
 .board {
-  width: 30%;
-  height: 50%;
   background-color: #fade91;
   margin: auto;
-  margin-top: 5%;
+  margin-top: 5px;
   padding: 10px;
+  max-width: 1100px;
 }
 
-canvas {
-  border: 1px solid #ccc;
+canvas#drawing-board {
   position: relative;
   width: 100%;
   height: 100%;
   margin: auto;
   background-color: white;
+}
+
+canvas#nick-sine {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  background-color: #eee;
+}
+
+.chat {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.chat-history {
+  background: #eef;
+  overflow-y: auto;
+  height: 575px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+@media only screen and (max-width: 768px)
+{
+  .chat-history {
+    height: 200px;
+  }
+}
+
+.chat-history ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0px;
+}
+
+@media only screen and (max-width: 768px)
+{
+  .xs-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.chat-history li {
+  padding: 3px 8px 8px 8px;
+}
+
+.chat-history li:nth-child(even) {
+  background: #bcd0ff;
+}
+
+.chat-history li:nth-child(odd) {
+  background: #dce7ff;
+}
+
+.chat-history img {
+  opacity: 0.8;
+  width: 20%;
+}
+
+.chat-box {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.chat-input {
+  border-color: #bb800c;
+}
+
+.chat-submit {
+  box-shadow: none;
+  background: #1B998B;
+  border-color: transparent;
+  color: white;
+  transition: all 0.3s;
+  margin-bottom: 0px;
+}
+
+.chat-submit:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.chat-submit:active {
+  border-color: transparent;
+  background: #18897d;
+  outline: none;
+  box-shadow: none;
+}
+
+.chat-submit:focus {
+  border-color: transparent;
 }

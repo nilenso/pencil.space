@@ -1,0 +1,10 @@
+{
+  "swagger": "2.0",
+  "paths": {},
+  "info": {
+    "version": "1.0",
+    "title": "Pencil Space (server)"
+  },
+  "host": "localhost:4000",
+  "definitions": {}
+}

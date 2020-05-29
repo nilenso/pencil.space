@@ -29,6 +29,12 @@ defmodule PencilSpaceServerWeb.ConnCase do
     end
   end
 
+  using do
+    quote do
+      import Bureaucrat.Helpers
+    end
+  end
+
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(PencilSpaceServer.Repo)
 
