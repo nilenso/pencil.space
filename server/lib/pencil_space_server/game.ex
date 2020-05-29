@@ -30,7 +30,7 @@ defmodule PencilSpaceServer.Game do
       iex> PencilSpaceServer.Game.update("name-of-game", %{host: 1})
       %PencilSpaceServer.Game.State{host: 1}
   """
-  def update(name, %{host: host}) do
+  def update(name, %{"host" => host}) do
     GenServer.call(ref(name), {:host, host})
   end
 
@@ -44,7 +44,7 @@ defmodule PencilSpaceServer.Game do
       iex> PencilSpaceServer.Game.update("name-of-game", %{participant: 1})
       %PencilSpaceServer.Game.State{participant: 1}
   """
-  def update(name, %{participant: participant}) do
+  def update(name, %{"participant" => participant}) do
     GenServer.call(ref(name), {:participant, participant})
   end
 

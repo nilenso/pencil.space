@@ -9,6 +9,6 @@ defmodule PencilSpaceServerWeb.Router do
     pipe_through :api
 
     post  "/game", GameController, :create
-    post  "/game/:id", GameController, :join
+    post  "/game/:name", GameController, :join
   end
 end
