@@ -39,8 +39,11 @@ defmodule PencilSpaceServer.MixProject do
       {:ecto_sql, "~> 3.4.3"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.2"},
+      {:poison, "~> 3.0"},
       {:plug_cowboy, "~> 2.1"},
-      {:nanoid, "~> 2.0.2"}
+      {:nanoid, "~> 2.0.2"},
+      {:bureaucrat, "~> 0.2.7"},
+      {:phoenix_swagger, "~> 0.8"},
     ]
   end
 
