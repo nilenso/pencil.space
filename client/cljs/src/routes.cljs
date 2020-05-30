@@ -15,6 +15,12 @@
             [src.sundry :refer [>evt <sub]]
             [src.tube :as tube]))
 
+(re-frame/reg-event-db
+  ::update-game
+  (fn [db [_ name]]
+    (assoc db :game :starting :id name)))
+
+
 (def routes
   ["/"
    [""
@@ -34,9 +40,23 @@
 
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
+   ["game/:name"
+    {:name ::game
+     :view home/page
+     :controllers
+     [{:start (fn [& params]
+                (js/console.log "Entering game" params))
+       :stop  (fn [& params] (js/console.log "Leaving game"))}]}]
+
    ["lobby"
     {:name ::lobby
-     :view lobby/page}]
+     :view lobby/page
+     :controllers
+     [{:start (fn [& params]
+                (chat/mount)
+                (js/console.log "Entering sub-page 2"))
+
+       :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
    ["draw"
     {:name ::draw

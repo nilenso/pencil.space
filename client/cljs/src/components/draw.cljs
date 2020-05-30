@@ -7,7 +7,7 @@
             [src.sundry :refer [>evt ->clj ->js]]
             [src.tube :as tube]))
 
-(defonce ^:private tube-event-type "[DRAW]")
+(defonce ^:private tube-event-type "draw")
 
 (def current-path (atom nil))
 (def path-buffer (atom nil))

@@ -7,7 +7,7 @@
                                 now epoch->local]]
             [src.tube :as tube]))
 
-(defonce ^:private tube-event-type "[CHAT]")
+(defonce ^:private tube-event-type "chat")
 
 (defn create-msg [{:keys [nick-name avatar]} msg]
   {:body msg
