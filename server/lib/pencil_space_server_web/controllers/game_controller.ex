@@ -18,14 +18,16 @@ defmodule PencilSpaceServerWeb.GameController do
         } = host
       ) do
 
-    case Game.start do
+    case Game.start(host) do
       {:ok, name} ->
-        Game.update(name, host)
         render_json(conn, :created, %{name: name})
       {:error} ->
         render_json(conn, :service_unavailable, %{error: "Could not create a new game"})
     end
   end
+
+  def create(conn, _params),
+      do: render_error(conn, 400)
 
   def join(
         conn,

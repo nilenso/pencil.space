@@ -1,6 +1,6 @@
 defmodule PencilSpaceServer.Game.State do
   @moduledoc """
-  Game state for keeping a log of the state changes.
+  For atomically manipulating state.
   """
 
   defstruct host: nil,
