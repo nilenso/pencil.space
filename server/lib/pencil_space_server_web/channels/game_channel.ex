@@ -2,11 +2,9 @@ defmodule PencilSpaceServerWeb.GameChannel do
   use Phoenix.Channel
   alias PencilSpaceServer.Game
 
-  def join("game:" <> _anything, _message, socket) do
-    "game:" <> name = socket.topic
-
+  def join("game:" <> name, _message, socket) do
     case Game.presence(name) do
-      {:ok, :exists} -> {:ok, assign(socket, :room, name)}
+      {:ok, :exists} -> {:ok, socket}
       {:error, :does_not_exist} -> {:error, :does_not_exist}
     end
   end
