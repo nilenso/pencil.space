@@ -1,4 +1,4 @@
-(ns src.components.chat
+(ns src.chat.views
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [src.sundry :refer [>evt <sub

@@ -3,7 +3,7 @@
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
-            [src.components.chat :as chat]
+            [src.chat.views :as chat]
             [src.sundry :refer [>evt ->clj ->js]]
             [src.tube :as tube]))
 

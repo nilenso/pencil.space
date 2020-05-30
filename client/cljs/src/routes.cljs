@@ -7,7 +7,7 @@
             [reitit.frontend :as rf]
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfe]
-            [src.components.chat :as chat]
+            [src.chat.views :as chat]
             [src.components.draw :as draw]
             [src.components.home :as home]
             [src.components.lobby :as lobby]
@@ -87,7 +87,7 @@
   (when new-match
     (>evt [::navigated new-match])))
 
-(defn router-component [{:keys [router]}]
+(defn router-component []
   (let [current-route (<sub [::current-route])]
     [:div
      (when current-route
@@ -104,4 +104,4 @@
 (defn mount [page-root]
   (re-frame/clear-subscription-cache!)
   (init)
-  (reagent-dom/render [router-component {:router router}] page-root))
+  (reagent-dom/render [router-component] page-root))
