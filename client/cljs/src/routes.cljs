@@ -8,9 +8,9 @@
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfe]
             [src.chat.views :as chat]
-            [src.components.draw :as draw]
-            [src.components.home :as home]
-            [src.components.lobby :as lobby]
+            [src.canvas.views :as canvas]
+            [src.home.views :as home]
+            [src.lobby.views :as lobby]
             [src.db :as db]
             [src.sundry :refer [>evt <sub]]
             [src.tube :as tube]))
@@ -60,10 +60,10 @@
 
    ["draw"
     {:name ::draw
-     :view draw/page
+     :view canvas/page
      :controllers
      [{:start (fn [& params]
-                (draw/mount)
+                (canvas/mount)
                 (js/console.log "Entering sub-page 2"))
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
 

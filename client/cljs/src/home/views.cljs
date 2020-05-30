@@ -1,4 +1,4 @@
-(ns src.components.home
+(ns src.home.views
   (:require ["roughjs/bin/rough" :default rough]
             [re-frame.core :as re-frame]
             [reitit.frontend.easy :as rfe]

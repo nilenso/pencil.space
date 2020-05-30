@@ -1,4 +1,4 @@
-(ns src.components.lobby
+(ns src.lobby.views
   (:require [re-frame.core :as re-frame]
             [src.sundry :refer [>evt <sub]]))
 

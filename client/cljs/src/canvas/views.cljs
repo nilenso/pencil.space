@@ -1,4 +1,4 @@
-(ns src.components.draw
+(ns src.canvas.views
   (:require ["paper" :as paper]
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
