@@ -1,10 +1,10 @@
 defmodule PencilSpaceServerWeb.GameController do
   @moduledoc """
-  Game controller that deals with creating/joining games over HTTP.
+  Creating/joining games over HTTP.
   """
 
   use PencilSpaceServerWeb, :controller
-  alias PencilSpaceServer.{Game}
+  alias PencilSpaceServer.Game
   import PencilSpaceServerWeb.ControllerHelpers
 
   def create(
@@ -49,4 +49,7 @@ defmodule PencilSpaceServerWeb.GameController do
         render_json(conn, :not_found, %{error: "Game with name: #{name} does not exist"})
     end
   end
+
+  def join(conn, _params),
+      do: render_error(conn, 400)
 end
