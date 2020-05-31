@@ -8,8 +8,8 @@ src.tube.connect = (function src$tube$connect(){
 return src.tube.socket.connect();
 });
 src.tube.push = (function src$tube$push(var_args){
-var G__34701 = arguments.length;
-switch (G__34701) {
+var G__19656 = arguments.length;
+switch (G__19656) {
 case 2:
 return src.tube.push.cljs$core$IFn$_invoke$arity$2((arguments[(0)]),(arguments[(1)]));
 
@@ -55,15 +55,15 @@ return console.log("Received Timeout",cljs.core.pr_str.cljs$core$IFn$_invoke$ari
 
 (src.tube.push.cljs$core$IFn$_invoke$arity$5 = (function (msg_type,msg_body,on_ok,on_error,on_timeout){
 var pushEvent = src.tube.channel.push(msg_type,cljs.core.clj__GT_js(msg_body));
-return pushEvent.receive("ok",(function (p1__34694_SHARP_){
-var G__34717 = cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(p1__34694_SHARP_);
-return (on_ok.cljs$core$IFn$_invoke$arity$1 ? on_ok.cljs$core$IFn$_invoke$arity$1(G__34717) : on_ok.call(null,G__34717));
-})).receive("error",(function (p1__34695_SHARP_){
-var G__34720 = cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(p1__34695_SHARP_);
-return (on_error.cljs$core$IFn$_invoke$arity$1 ? on_error.cljs$core$IFn$_invoke$arity$1(G__34720) : on_error.call(null,G__34720));
-})).receive("timeout",(function (p1__34696_SHARP_){
-var G__34721 = cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(p1__34696_SHARP_);
-return (on_timeout.cljs$core$IFn$_invoke$arity$1 ? on_timeout.cljs$core$IFn$_invoke$arity$1(G__34721) : on_timeout.call(null,G__34721));
+return pushEvent.receive("ok",(function (p1__19651_SHARP_){
+var G__19657 = cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(p1__19651_SHARP_);
+return (on_ok.cljs$core$IFn$_invoke$arity$1 ? on_ok.cljs$core$IFn$_invoke$arity$1(G__19657) : on_ok.call(null,G__19657));
+})).receive("error",(function (p1__19652_SHARP_){
+var G__19658 = cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(p1__19652_SHARP_);
+return (on_error.cljs$core$IFn$_invoke$arity$1 ? on_error.cljs$core$IFn$_invoke$arity$1(G__19658) : on_error.call(null,G__19658));
+})).receive("timeout",(function (p1__19653_SHARP_){
+var G__19659 = cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(p1__19653_SHARP_);
+return (on_timeout.cljs$core$IFn$_invoke$arity$1 ? on_timeout.cljs$core$IFn$_invoke$arity$1(G__19659) : on_timeout.call(null,G__19659));
 }));
 }));
 

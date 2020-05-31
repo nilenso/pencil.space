@@ -15,240 +15,240 @@ goog.require('src.lobby.views');
 goog.require('src.db');
 goog.require('src.sundry');
 goog.require('src.tube');
-re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(new cljs.core.Keyword("src.routes","update-game","src.routes/update-game",129362012),(function (db,p__34960){
-var vec__34961 = p__34960;
-var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__34961,(0),null);
-var name = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__34961,(1),null);
+re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(new cljs.core.Keyword("src.routes","update-game","src.routes/update-game",129362012),(function (db,p__9181){
+var vec__9182 = p__9181;
+var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__9182,(0),null);
+var name = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__9182,(1),null);
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(db,new cljs.core.Keyword(null,"game","game",-441523833),new cljs.core.Keyword(null,"starting","starting",-1852141466),cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([new cljs.core.Keyword(null,"id","id",-1388402092),name], 0));
 }));
 src.routes.routes = new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, ["/",new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["",new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"name","name",1843675177),new cljs.core.Keyword("src.routes","home","src.routes/home",626274071),new cljs.core.Keyword(null,"view","view",1247994814),src.home.views.page,new cljs.core.Keyword(null,"controllers","controllers",-1120410624),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"start","start",-355208981),(function() { 
-var G__34980__delegate = function (params){
+var G__9195__delegate = function (params){
 return console.log("Entering home page");
 };
-var G__34980 = function (var_args){
+var G__9195 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__34981__i = 0, G__34981__a = new Array(arguments.length -  0);
-while (G__34981__i < G__34981__a.length) {G__34981__a[G__34981__i] = arguments[G__34981__i + 0]; ++G__34981__i;}
-  params = new cljs.core.IndexedSeq(G__34981__a,0,null);
+var G__9196__i = 0, G__9196__a = new Array(arguments.length -  0);
+while (G__9196__i < G__9196__a.length) {G__9196__a[G__9196__i] = arguments[G__9196__i + 0]; ++G__9196__i;}
+  params = new cljs.core.IndexedSeq(G__9196__a,0,null);
 } 
-return G__34980__delegate.call(this,params);};
-G__34980.cljs$lang$maxFixedArity = 0;
-G__34980.cljs$lang$applyTo = (function (arglist__34982){
-var params = cljs.core.seq(arglist__34982);
-return G__34980__delegate(params);
+return G__9195__delegate.call(this,params);};
+G__9195.cljs$lang$maxFixedArity = 0;
+G__9195.cljs$lang$applyTo = (function (arglist__9197){
+var params = cljs.core.seq(arglist__9197);
+return G__9195__delegate(params);
 });
-G__34980.cljs$core$IFn$_invoke$arity$variadic = G__34980__delegate;
-return G__34980;
+G__9195.cljs$core$IFn$_invoke$arity$variadic = G__9195__delegate;
+return G__9195;
 })()
 ,new cljs.core.Keyword(null,"stop","stop",-2140911342),(function() { 
-var G__34983__delegate = function (params){
+var G__9198__delegate = function (params){
 return console.log("Leaving home page");
 };
-var G__34983 = function (var_args){
+var G__9198 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__34984__i = 0, G__34984__a = new Array(arguments.length -  0);
-while (G__34984__i < G__34984__a.length) {G__34984__a[G__34984__i] = arguments[G__34984__i + 0]; ++G__34984__i;}
-  params = new cljs.core.IndexedSeq(G__34984__a,0,null);
+var G__9199__i = 0, G__9199__a = new Array(arguments.length -  0);
+while (G__9199__i < G__9199__a.length) {G__9199__a[G__9199__i] = arguments[G__9199__i + 0]; ++G__9199__i;}
+  params = new cljs.core.IndexedSeq(G__9199__a,0,null);
 } 
-return G__34983__delegate.call(this,params);};
-G__34983.cljs$lang$maxFixedArity = 0;
-G__34983.cljs$lang$applyTo = (function (arglist__34985){
-var params = cljs.core.seq(arglist__34985);
-return G__34983__delegate(params);
+return G__9198__delegate.call(this,params);};
+G__9198.cljs$lang$maxFixedArity = 0;
+G__9198.cljs$lang$applyTo = (function (arglist__9200){
+var params = cljs.core.seq(arglist__9200);
+return G__9198__delegate(params);
 });
-G__34983.cljs$core$IFn$_invoke$arity$variadic = G__34983__delegate;
-return G__34983;
+G__9198.cljs$core$IFn$_invoke$arity$variadic = G__9198__delegate;
+return G__9198;
 })()
 ], null)], null)], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["chat",new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"name","name",1843675177),new cljs.core.Keyword("src.routes","chat","src.routes/chat",921022401),new cljs.core.Keyword(null,"view","view",1247994814),src.chat.views.page,new cljs.core.Keyword(null,"controllers","controllers",-1120410624),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"start","start",-355208981),(function() { 
-var G__34986__delegate = function (params){
+var G__9201__delegate = function (params){
 src.chat.views.mount();
 
 return console.log("Entering sub-page 2");
 };
-var G__34986 = function (var_args){
+var G__9201 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__34987__i = 0, G__34987__a = new Array(arguments.length -  0);
-while (G__34987__i < G__34987__a.length) {G__34987__a[G__34987__i] = arguments[G__34987__i + 0]; ++G__34987__i;}
-  params = new cljs.core.IndexedSeq(G__34987__a,0,null);
+var G__9202__i = 0, G__9202__a = new Array(arguments.length -  0);
+while (G__9202__i < G__9202__a.length) {G__9202__a[G__9202__i] = arguments[G__9202__i + 0]; ++G__9202__i;}
+  params = new cljs.core.IndexedSeq(G__9202__a,0,null);
 } 
-return G__34986__delegate.call(this,params);};
-G__34986.cljs$lang$maxFixedArity = 0;
-G__34986.cljs$lang$applyTo = (function (arglist__34988){
-var params = cljs.core.seq(arglist__34988);
-return G__34986__delegate(params);
+return G__9201__delegate.call(this,params);};
+G__9201.cljs$lang$maxFixedArity = 0;
+G__9201.cljs$lang$applyTo = (function (arglist__9203){
+var params = cljs.core.seq(arglist__9203);
+return G__9201__delegate(params);
 });
-G__34986.cljs$core$IFn$_invoke$arity$variadic = G__34986__delegate;
-return G__34986;
+G__9201.cljs$core$IFn$_invoke$arity$variadic = G__9201__delegate;
+return G__9201;
 })()
 ,new cljs.core.Keyword(null,"stop","stop",-2140911342),(function() { 
-var G__34989__delegate = function (params){
+var G__9204__delegate = function (params){
 return console.log("Leaving sub-page 2");
 };
-var G__34989 = function (var_args){
+var G__9204 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__34990__i = 0, G__34990__a = new Array(arguments.length -  0);
-while (G__34990__i < G__34990__a.length) {G__34990__a[G__34990__i] = arguments[G__34990__i + 0]; ++G__34990__i;}
-  params = new cljs.core.IndexedSeq(G__34990__a,0,null);
+var G__9205__i = 0, G__9205__a = new Array(arguments.length -  0);
+while (G__9205__i < G__9205__a.length) {G__9205__a[G__9205__i] = arguments[G__9205__i + 0]; ++G__9205__i;}
+  params = new cljs.core.IndexedSeq(G__9205__a,0,null);
 } 
-return G__34989__delegate.call(this,params);};
-G__34989.cljs$lang$maxFixedArity = 0;
-G__34989.cljs$lang$applyTo = (function (arglist__34991){
-var params = cljs.core.seq(arglist__34991);
-return G__34989__delegate(params);
+return G__9204__delegate.call(this,params);};
+G__9204.cljs$lang$maxFixedArity = 0;
+G__9204.cljs$lang$applyTo = (function (arglist__9206){
+var params = cljs.core.seq(arglist__9206);
+return G__9204__delegate(params);
 });
-G__34989.cljs$core$IFn$_invoke$arity$variadic = G__34989__delegate;
-return G__34989;
+G__9204.cljs$core$IFn$_invoke$arity$variadic = G__9204__delegate;
+return G__9204;
 })()
 ], null)], null)], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["game/:name",new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"name","name",1843675177),new cljs.core.Keyword("src.routes","game","src.routes/game",737200659),new cljs.core.Keyword(null,"view","view",1247994814),src.home.views.page,new cljs.core.Keyword(null,"controllers","controllers",-1120410624),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"start","start",-355208981),(function() { 
-var G__34992__delegate = function (params){
+var G__9207__delegate = function (params){
 return console.log("Entering game",params);
 };
-var G__34992 = function (var_args){
+var G__9207 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__34993__i = 0, G__34993__a = new Array(arguments.length -  0);
-while (G__34993__i < G__34993__a.length) {G__34993__a[G__34993__i] = arguments[G__34993__i + 0]; ++G__34993__i;}
-  params = new cljs.core.IndexedSeq(G__34993__a,0,null);
+var G__9208__i = 0, G__9208__a = new Array(arguments.length -  0);
+while (G__9208__i < G__9208__a.length) {G__9208__a[G__9208__i] = arguments[G__9208__i + 0]; ++G__9208__i;}
+  params = new cljs.core.IndexedSeq(G__9208__a,0,null);
 } 
-return G__34992__delegate.call(this,params);};
-G__34992.cljs$lang$maxFixedArity = 0;
-G__34992.cljs$lang$applyTo = (function (arglist__34994){
-var params = cljs.core.seq(arglist__34994);
-return G__34992__delegate(params);
+return G__9207__delegate.call(this,params);};
+G__9207.cljs$lang$maxFixedArity = 0;
+G__9207.cljs$lang$applyTo = (function (arglist__9209){
+var params = cljs.core.seq(arglist__9209);
+return G__9207__delegate(params);
 });
-G__34992.cljs$core$IFn$_invoke$arity$variadic = G__34992__delegate;
-return G__34992;
+G__9207.cljs$core$IFn$_invoke$arity$variadic = G__9207__delegate;
+return G__9207;
 })()
 ,new cljs.core.Keyword(null,"stop","stop",-2140911342),(function() { 
-var G__34996__delegate = function (params){
+var G__9210__delegate = function (params){
 return console.log("Leaving game");
 };
-var G__34996 = function (var_args){
+var G__9210 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__34997__i = 0, G__34997__a = new Array(arguments.length -  0);
-while (G__34997__i < G__34997__a.length) {G__34997__a[G__34997__i] = arguments[G__34997__i + 0]; ++G__34997__i;}
-  params = new cljs.core.IndexedSeq(G__34997__a,0,null);
+var G__9211__i = 0, G__9211__a = new Array(arguments.length -  0);
+while (G__9211__i < G__9211__a.length) {G__9211__a[G__9211__i] = arguments[G__9211__i + 0]; ++G__9211__i;}
+  params = new cljs.core.IndexedSeq(G__9211__a,0,null);
 } 
-return G__34996__delegate.call(this,params);};
-G__34996.cljs$lang$maxFixedArity = 0;
-G__34996.cljs$lang$applyTo = (function (arglist__34998){
-var params = cljs.core.seq(arglist__34998);
-return G__34996__delegate(params);
+return G__9210__delegate.call(this,params);};
+G__9210.cljs$lang$maxFixedArity = 0;
+G__9210.cljs$lang$applyTo = (function (arglist__9212){
+var params = cljs.core.seq(arglist__9212);
+return G__9210__delegate(params);
 });
-G__34996.cljs$core$IFn$_invoke$arity$variadic = G__34996__delegate;
-return G__34996;
+G__9210.cljs$core$IFn$_invoke$arity$variadic = G__9210__delegate;
+return G__9210;
 })()
 ], null)], null)], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["lobby",new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"name","name",1843675177),new cljs.core.Keyword("src.routes","lobby","src.routes/lobby",14718945),new cljs.core.Keyword(null,"view","view",1247994814),src.lobby.views.page,new cljs.core.Keyword(null,"controllers","controllers",-1120410624),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"start","start",-355208981),(function() { 
-var G__34999__delegate = function (params){
+var G__9213__delegate = function (params){
 src.chat.views.mount();
 
 return console.log("Entering sub-page 2");
 };
-var G__34999 = function (var_args){
+var G__9213 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__35000__i = 0, G__35000__a = new Array(arguments.length -  0);
-while (G__35000__i < G__35000__a.length) {G__35000__a[G__35000__i] = arguments[G__35000__i + 0]; ++G__35000__i;}
-  params = new cljs.core.IndexedSeq(G__35000__a,0,null);
+var G__9214__i = 0, G__9214__a = new Array(arguments.length -  0);
+while (G__9214__i < G__9214__a.length) {G__9214__a[G__9214__i] = arguments[G__9214__i + 0]; ++G__9214__i;}
+  params = new cljs.core.IndexedSeq(G__9214__a,0,null);
 } 
-return G__34999__delegate.call(this,params);};
-G__34999.cljs$lang$maxFixedArity = 0;
-G__34999.cljs$lang$applyTo = (function (arglist__35001){
-var params = cljs.core.seq(arglist__35001);
-return G__34999__delegate(params);
+return G__9213__delegate.call(this,params);};
+G__9213.cljs$lang$maxFixedArity = 0;
+G__9213.cljs$lang$applyTo = (function (arglist__9215){
+var params = cljs.core.seq(arglist__9215);
+return G__9213__delegate(params);
 });
-G__34999.cljs$core$IFn$_invoke$arity$variadic = G__34999__delegate;
-return G__34999;
+G__9213.cljs$core$IFn$_invoke$arity$variadic = G__9213__delegate;
+return G__9213;
 })()
 ,new cljs.core.Keyword(null,"stop","stop",-2140911342),(function() { 
-var G__35003__delegate = function (params){
+var G__9216__delegate = function (params){
 return console.log("Leaving sub-page 2");
 };
-var G__35003 = function (var_args){
+var G__9216 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__35004__i = 0, G__35004__a = new Array(arguments.length -  0);
-while (G__35004__i < G__35004__a.length) {G__35004__a[G__35004__i] = arguments[G__35004__i + 0]; ++G__35004__i;}
-  params = new cljs.core.IndexedSeq(G__35004__a,0,null);
+var G__9217__i = 0, G__9217__a = new Array(arguments.length -  0);
+while (G__9217__i < G__9217__a.length) {G__9217__a[G__9217__i] = arguments[G__9217__i + 0]; ++G__9217__i;}
+  params = new cljs.core.IndexedSeq(G__9217__a,0,null);
 } 
-return G__35003__delegate.call(this,params);};
-G__35003.cljs$lang$maxFixedArity = 0;
-G__35003.cljs$lang$applyTo = (function (arglist__35005){
-var params = cljs.core.seq(arglist__35005);
-return G__35003__delegate(params);
+return G__9216__delegate.call(this,params);};
+G__9216.cljs$lang$maxFixedArity = 0;
+G__9216.cljs$lang$applyTo = (function (arglist__9218){
+var params = cljs.core.seq(arglist__9218);
+return G__9216__delegate(params);
 });
-G__35003.cljs$core$IFn$_invoke$arity$variadic = G__35003__delegate;
-return G__35003;
+G__9216.cljs$core$IFn$_invoke$arity$variadic = G__9216__delegate;
+return G__9216;
 })()
 ], null)], null)], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["draw",new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"name","name",1843675177),new cljs.core.Keyword("src.routes","draw","src.routes/draw",313285038),new cljs.core.Keyword(null,"view","view",1247994814),src.canvas.views.page,new cljs.core.Keyword(null,"controllers","controllers",-1120410624),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"start","start",-355208981),(function() { 
-var G__35006__delegate = function (params){
+var G__9219__delegate = function (params){
 src.canvas.views.mount();
 
 return console.log("Entering sub-page 2");
 };
-var G__35006 = function (var_args){
+var G__9219 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__35007__i = 0, G__35007__a = new Array(arguments.length -  0);
-while (G__35007__i < G__35007__a.length) {G__35007__a[G__35007__i] = arguments[G__35007__i + 0]; ++G__35007__i;}
-  params = new cljs.core.IndexedSeq(G__35007__a,0,null);
+var G__9220__i = 0, G__9220__a = new Array(arguments.length -  0);
+while (G__9220__i < G__9220__a.length) {G__9220__a[G__9220__i] = arguments[G__9220__i + 0]; ++G__9220__i;}
+  params = new cljs.core.IndexedSeq(G__9220__a,0,null);
 } 
-return G__35006__delegate.call(this,params);};
-G__35006.cljs$lang$maxFixedArity = 0;
-G__35006.cljs$lang$applyTo = (function (arglist__35008){
-var params = cljs.core.seq(arglist__35008);
-return G__35006__delegate(params);
+return G__9219__delegate.call(this,params);};
+G__9219.cljs$lang$maxFixedArity = 0;
+G__9219.cljs$lang$applyTo = (function (arglist__9221){
+var params = cljs.core.seq(arglist__9221);
+return G__9219__delegate(params);
 });
-G__35006.cljs$core$IFn$_invoke$arity$variadic = G__35006__delegate;
-return G__35006;
+G__9219.cljs$core$IFn$_invoke$arity$variadic = G__9219__delegate;
+return G__9219;
 })()
 ,new cljs.core.Keyword(null,"stop","stop",-2140911342),(function() { 
-var G__35009__delegate = function (params){
+var G__9222__delegate = function (params){
 return console.log("Leaving sub-page 2");
 };
-var G__35009 = function (var_args){
+var G__9222 = function (var_args){
 var params = null;
 if (arguments.length > 0) {
-var G__35010__i = 0, G__35010__a = new Array(arguments.length -  0);
-while (G__35010__i < G__35010__a.length) {G__35010__a[G__35010__i] = arguments[G__35010__i + 0]; ++G__35010__i;}
-  params = new cljs.core.IndexedSeq(G__35010__a,0,null);
+var G__9223__i = 0, G__9223__a = new Array(arguments.length -  0);
+while (G__9223__i < G__9223__a.length) {G__9223__a[G__9223__i] = arguments[G__9223__i + 0]; ++G__9223__i;}
+  params = new cljs.core.IndexedSeq(G__9223__a,0,null);
 } 
-return G__35009__delegate.call(this,params);};
-G__35009.cljs$lang$maxFixedArity = 0;
-G__35009.cljs$lang$applyTo = (function (arglist__35011){
-var params = cljs.core.seq(arglist__35011);
-return G__35009__delegate(params);
+return G__9222__delegate.call(this,params);};
+G__9222.cljs$lang$maxFixedArity = 0;
+G__9222.cljs$lang$applyTo = (function (arglist__9224){
+var params = cljs.core.seq(arglist__9224);
+return G__9222__delegate(params);
 });
-G__35009.cljs$core$IFn$_invoke$arity$variadic = G__35009__delegate;
-return G__35009;
+G__9222.cljs$core$IFn$_invoke$arity$variadic = G__9222__delegate;
+return G__9222;
 })()
 ], null)], null)], null)], null)], null);
 src.routes.router = reitit.frontend.router.cljs$core$IFn$_invoke$arity$2(src.routes.routes,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"data","data",-232669377),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"coercion","coercion",904067157),reitit.coercion.spec.coercion], null)], null));
-var G__34970_35012 = new cljs.core.Keyword("src.routes","current-route","src.routes/current-route",-1183265412);
-var G__34971_35013 = (function (db){
+var G__9185_9225 = new cljs.core.Keyword("src.routes","current-route","src.routes/current-route",-1183265412);
+var G__9186_9226 = (function (db){
 return new cljs.core.Keyword(null,"current-route","current-route",2067529448).cljs$core$IFn$_invoke$arity$1(db);
 });
-(re_frame.core.reg_sub.cljs$core$IFn$_invoke$arity$2 ? re_frame.core.reg_sub.cljs$core$IFn$_invoke$arity$2(G__34970_35012,G__34971_35013) : re_frame.core.reg_sub.call(null,G__34970_35012,G__34971_35013));
-re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(new cljs.core.Keyword("src.routes","navigated","src.routes/navigated",1518536872),(function (p__34972,p__34973){
-var map__34974 = p__34972;
-var map__34974__$1 = (((((!((map__34974 == null))))?(((((map__34974.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__34974.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__34974):map__34974);
-var db = map__34974__$1;
-var current_route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__34974__$1,new cljs.core.Keyword(null,"current-route","current-route",2067529448));
-var vec__34975 = p__34973;
-var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__34975,(0),null);
-var new_match = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__34975,(1),null);
+(re_frame.core.reg_sub.cljs$core$IFn$_invoke$arity$2 ? re_frame.core.reg_sub.cljs$core$IFn$_invoke$arity$2(G__9185_9225,G__9186_9226) : re_frame.core.reg_sub.call(null,G__9185_9225,G__9186_9226));
+re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(new cljs.core.Keyword("src.routes","navigated","src.routes/navigated",1518536872),(function (p__9187,p__9188){
+var map__9189 = p__9187;
+var map__9189__$1 = (((((!((map__9189 == null))))?(((((map__9189.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__9189.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__9189):map__9189);
+var db = map__9189__$1;
+var current_route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__9189__$1,new cljs.core.Keyword(null,"current-route","current-route",2067529448));
+var vec__9190 = p__9188;
+var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__9190,(0),null);
+var new_match = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__9190,(1),null);
 var controllers = reitit.frontend.controllers.apply_controllers(new cljs.core.Keyword(null,"controllers","controllers",-1120410624).cljs$core$IFn$_invoke$arity$1(current_route),new_match);
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(db,new cljs.core.Keyword(null,"current-route","current-route",2067529448),cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(new_match,new cljs.core.Keyword(null,"controllers","controllers",-1120410624),controllers));
 }));
 src.routes.on_navigate = (function src$routes$on_navigate(new_match){
 if(cljs.core.truth_(new_match)){
-var G__34979 = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("src.routes","navigated","src.routes/navigated",1518536872),new_match], null);
-return (src.sundry._GT_evt.cljs$core$IFn$_invoke$arity$1 ? src.sundry._GT_evt.cljs$core$IFn$_invoke$arity$1(G__34979) : src.sundry._GT_evt.call(null,G__34979));
+var G__9194 = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("src.routes","navigated","src.routes/navigated",1518536872),new_match], null);
+return (src.sundry._GT_evt.cljs$core$IFn$_invoke$arity$1 ? src.sundry._GT_evt.cljs$core$IFn$_invoke$arity$1(G__9194) : src.sundry._GT_evt.call(null,G__9194));
 } else {
 return null;
 }

@@ -20,8 +20,8 @@ console.log("Initializing...");
 
 src.dev.setup();
 
-var G__34995_35002 = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("src.core","initialize-db","src.core/initialize-db",-502393145)], null);
-(re_frame.core.dispatch_sync.cljs$core$IFn$_invoke$arity$1 ? re_frame.core.dispatch_sync.cljs$core$IFn$_invoke$arity$1(G__34995_35002) : re_frame.core.dispatch_sync.call(null,G__34995_35002));
+var G__9227_9228 = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("src.core","initialize-db","src.core/initialize-db",-502393145)], null);
+(re_frame.core.dispatch_sync.cljs$core$IFn$_invoke$arity$1 ? re_frame.core.dispatch_sync.cljs$core$IFn$_invoke$arity$1(G__9227_9228) : re_frame.core.dispatch_sync.call(null,G__9227_9228));
 
 src.core.loading();
 

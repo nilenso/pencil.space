@@ -4,7 +4,7 @@
             [reitit.frontend.easy :as rfe]
             [re-frame.core :as re-frame]))
 
-(defonce ^:private game-api "http://localhost:8080/api/v1/game")
+(defonce ^:private game-api "http://localhost:4000/api/v1/game")
 
 (re-frame/reg-fx
  ::navigate!
