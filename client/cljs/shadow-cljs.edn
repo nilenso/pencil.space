@@ -1,6 +1,9 @@
 {:dependencies [[re-frame "0.12.0"]
                 [metosin/reitit "0.4.2"]
                 [com.andrewmcveigh/cljs-time "0.5.2"]
+                [cljs-ajax "0.7.5"]
+                [day8.re-frame/http-fx "v0.2.0"]
+                [nano-id "1.0.0"]
 
                 ;; dev deps
                 [day8.re-frame/tracing "0.5.3"]
@@ -8,10 +11,13 @@
                 [binaryage/devtools "1.0.0"]]
 
  :source-paths ["./"]
- :dev-http     {8080 {:root      "build/"}}
- :builds       {:app {:output-dir "build/assets"
-                      :asset-path "assets"
-                      :target     :browser
-                      :modules    {:main {:init-fn src.core/init}}
-                      :devtools   {:http-root  "build/"
-                                   :http-port  8080}}}}
+ :builds       {:app {:output-dir       "static/assets"
+                      :asset-path       "assets"
+                      :target           :browser
+                      :modules          {:main {:init-fn src.core/init}}
+                      :compiler-options {:closure-defines
+                                         {"re_frame.trace.trace_enabled_QMARK_" true}}
+                      :devtools         {:http-root "static/"
+                                         :http-port 8080
+                                         :preloads  [devtools.preload
+                                                     day8.re-frame-10x.preload]}}}}

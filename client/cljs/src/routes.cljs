@@ -7,13 +7,19 @@
             [reitit.frontend :as rf]
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfe]
-            [src.components.chat :as chat]
-            [src.components.draw :as draw]
-            [src.components.home :as home]
-            [src.components.lobby :as lobby]
+            [src.chat.views :as chat]
+            [src.canvas.views :as canvas]
+            [src.home.views :as home]
+            [src.lobby.views :as lobby]
             [src.db :as db]
             [src.sundry :refer [>evt <sub]]
             [src.tube :as tube]))
+
+(re-frame/reg-event-db
+  ::update-game
+  (fn [db [_ name]]
+    (assoc db :game :starting :id name)))
+
 
 (def routes
   ["/"
@@ -34,16 +40,30 @@
 
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
+   ["game/:name"
+    {:name ::game
+     :view home/page
+     :controllers
+     [{:start (fn [& params]
+                (js/console.log "Entering game" params))
+       :stop  (fn [& params] (js/console.log "Leaving game"))}]}]
+
    ["lobby"
     {:name ::lobby
-     :view lobby/page}]
+     :view lobby/page
+     :controllers
+     [{:start (fn [& params]
+                (chat/mount)
+                (js/console.log "Entering sub-page 2"))
+
+       :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
    ["draw"
     {:name ::draw
-     :view draw/page
+     :view canvas/page
      :controllers
      [{:start (fn [& params]
-                (draw/mount)
+                (canvas/mount)
                 (js/console.log "Entering sub-page 2"))
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
 
@@ -67,7 +87,7 @@
   (when new-match
     (>evt [::navigated new-match])))
 
-(defn router-component [{:keys [router]}]
+(defn router-component []
   (let [current-route (<sub [::current-route])]
     [:div
      (when current-route
@@ -84,4 +104,4 @@
 (defn mount [page-root]
   (re-frame/clear-subscription-cache!)
   (init)
-  (reagent-dom/render [router-component {:router router}] page-root))
+  (reagent-dom/render [router-component] page-root))

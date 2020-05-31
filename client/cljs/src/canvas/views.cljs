@@ -1,13 +1,13 @@
-(ns src.components.draw
+(ns src.canvas.views
   (:require ["paper" :as paper]
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
-            [src.components.chat :as chat]
+            [src.chat.views :as chat]
             [src.sundry :refer [>evt ->clj ->js]]
             [src.tube :as tube]))
 
-(defonce ^:private tube-event-type "[DRAW]")
+(defonce ^:private tube-event-type "draw")
 
 (def current-path (atom nil))
 (def path-buffer (atom nil))

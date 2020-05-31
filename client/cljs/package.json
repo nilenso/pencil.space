@@ -13,6 +13,7 @@
     "react": "^16.13.1",
     "phoenix": "^1.4.16",
     "react-dom": "16.13.1",
+    "react-flip-move": "^3.0.1",
     "react-highlight.js": "1.0.7",
     "roughjs": "^4.0.4"
   }

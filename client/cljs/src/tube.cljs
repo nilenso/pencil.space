@@ -6,7 +6,7 @@
        "ws://localhost:4000/socket"
        (clj->js {:params {:token ""}})))
 
-(def channel (.channel socket "room:lobby" (clj->js {})))
+(def channel (.channel socket "game:eeOeXocf3MZw99aJ3Mpgy" (clj->js {})))
 (def joined-channel (.join channel))
 
 (defn connect []
