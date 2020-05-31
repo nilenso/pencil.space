@@ -5,7 +5,7 @@ defmodule PencilSpaceServerWeb.GameController do
 
   use PencilSpaceServerWeb, :controller
   alias PencilSpaceServer.Game
-  import PencilSpaceServerWeb.ControllerHelpers
+  import PencilSpaceServerWeb.ControllerHelpers, only: [render_json: 3, render_error: 2]
 
   def create(
         conn,

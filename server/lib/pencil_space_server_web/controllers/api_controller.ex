@@ -4,7 +4,7 @@ defmodule PencilSpaceServerWeb.ApiController do
   """
 
   use PencilSpaceServerWeb, :controller
-  import PencilSpaceServerWeb.ControllerHelpers
+  import PencilSpaceServerWeb.ControllerHelpers, only: [render_error: 2]
 
   def route_not_found(conn, _params),
       do: render_error(conn, 404)
