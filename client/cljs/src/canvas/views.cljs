@@ -4,7 +4,7 @@
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
             [src.sundry :refer [>evt ->clj ->js]]
-            [src.tube :as tube]))
+            [src.tube.core :as tube]))
 
 (defonce ^:private tube-event-type "draw")
 

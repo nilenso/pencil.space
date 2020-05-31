@@ -4,7 +4,7 @@
                                 ->clj ->input
                                 now
                                 epoch->local]]
-            [src.tube :as tube]
+            [src.tube.core :as tube]
             [re-frame.core :as re-frame]))
 
 (defonce ^:private tube-event-type "chat")

@@ -1,4 +1,4 @@
-(ns src.tube
+(ns src.tube.core
   (:require ["phoenix" :refer (Socket)]))
 
 (def socket

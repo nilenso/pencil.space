@@ -6,7 +6,8 @@
             [src.routes :as routes]
             [src.canvas.events]
             [src.chat.events]
-            [src.chat.subs]))
+            [src.chat.subs]
+            [src.tube.fx]))
 
 (re-frame/reg-event-db
  ::initialize-db

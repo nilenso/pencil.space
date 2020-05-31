@@ -12,8 +12,7 @@
             [src.home.views :as home]
             [src.lobby.views :as lobby]
             [src.db :as db]
-            [src.sundry :refer [>evt <sub]]
-            [src.tube :as tube]))
+            [src.sundry :refer [>evt <sub]]))
 
 (re-frame/reg-event-db
   ::update-game
