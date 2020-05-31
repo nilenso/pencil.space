@@ -6,9 +6,6 @@ defmodule PencilSpaceServerWeb.ApiController do
   use PencilSpaceServerWeb, :controller
   import PencilSpaceServerWeb.ControllerHelpers, only: [render_error: 2]
 
-  use PencilSpaceServerWeb, :controller
-  import PencilSpaceServerWeb.ControllerHelpers
-
   def index(conn, _params) do
     html(conn, File.read!("priv/static/index.html"))
   end
