@@ -11,9 +11,13 @@
                 [binaryage/devtools "1.0.0"]]
 
  :source-paths ["./"]
- :builds       {:app {:output-dir "static/assets"
-                      :asset-path "assets"
-                      :target     :browser
-                      :modules    {:main {:init-fn src.core/init}}
-                      :devtools   {:http-root "static/"
-                                   :http-port 8080}}}}
+ :builds       {:app {:output-dir       "static/assets"
+                      :asset-path       "assets"
+                      :target           :browser
+                      :modules          {:main {:init-fn src.core/init}}
+                      :compiler-options {:closure-defines
+                                         {"re_frame.trace.trace_enabled_QMARK_" true}}
+                      :devtools         {:http-root "static/"
+                                         :http-port 8080
+                                         :preloads  [devtools.preload
+                                                     day8.re-frame-10x.preload]}}}}
