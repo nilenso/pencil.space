@@ -3,7 +3,6 @@
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
-            [src.chat.views :as chat]
             [src.sundry :refer [>evt ->clj ->js]]
             [src.tube :as tube]))
 
@@ -44,26 +43,13 @@
     (if (= @external-current-path-id path-id)
       (.addSegments @external-current-path (->js segments))
       (new-external-path path-id segments))))
-;;;;;;
-
-;;; effects
-
-(re-frame/reg-event-fx
- ::send-new-path
- (fn [db [_ path]]
-   {::send! path}))
-
-(re-frame/reg-fx
- ::send!
- (fn [path]
-   (tube/push tube-event-type path)))
 
 (defn clear-path-buffer! []
   (reset! path-buffer (new-path-buffer)))
 
 (defn send-buffer! []
   (when (not-empty (:segments @path-buffer))
-    (>evt [::send-new-path @path-buffer])
+    (>evt [:send-new-path @path-buffer tube-event-type])
     (clear-path-buffer!)))
 
 (defn send-buffer-if-time! []
@@ -119,17 +105,8 @@
 
       :reagent-render
       (fn []
-        [:div.row
-         [:div.xs-1.sm-2.md-2]
-         [:div.xs-10.sm-8.md-8
-          [:div.board.row
-           [:div.xs-12.lg-8
-            [:canvas#drawing-board]]
-           [:div.xs-12.lg-4
-            [chat/page]]]]
-         [:div.xs-1.sm-2.md-2]])})))
+        [:canvas#drawing-board])})))
 
 (defn mount []
   (tube/connect)
-  (tube/join tube-event-type draw-received-drawing)
-  (chat/mount))
+  (tube/join tube-event-type draw-received-drawing))

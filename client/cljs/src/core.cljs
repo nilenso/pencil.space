@@ -4,6 +4,7 @@
             [src.dev :as dev]
             [src.db :as db]
             [src.routes :as routes]
+            [src.canvas.events]
             [src.chat.events]
             [src.chat.subs]))
 

@@ -8,7 +8,7 @@
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfe]
             [src.chat.views :as chat]
-            [src.canvas.views :as canvas]
+            [src.game.views :as game]
             [src.home.views :as home]
             [src.lobby.views :as lobby]
             [src.db :as db]
@@ -60,10 +60,10 @@
 
    ["draw"
     {:name ::draw
-     :view canvas/page
+     :view game/page
      :controllers
      [{:start (fn [& params]
-                (canvas/mount)
+                (game/mount)
                 (js/console.log "Entering sub-page 2"))
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
 
