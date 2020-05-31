@@ -3,7 +3,9 @@
             [reagent.dom :as reagent-dom]
             [src.dev :as dev]
             [src.db :as db]
-            [src.routes :as routes]))
+            [src.routes :as routes]
+            [src.chat.events]
+            [src.chat.subs]))
 
 (re-frame/reg-event-db
  ::initialize-db
