@@ -1,9 +1,9 @@
 defmodule PencilSpaceServerWeb.UserSocket do
   use Phoenix.Socket
-  alias PencilSpaceServerWeb.RoomChannel
+  alias PencilSpaceServerWeb.GameChannel
 
   ## Channels
-  channel "room:*", RoomChannel
+  channel "game:*", GameChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

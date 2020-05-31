@@ -5,10 +5,19 @@ defmodule PencilSpaceServerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+  end
+
   scope "/api/v1", PencilSpaceServerWeb do
     pipe_through :api
-
     post  "/game", GameController, :create
-    post  "/game/:id", GameController, :join
+    post  "/game/:name", GameController, :join
+    post  "/*path", ApiController, :route_not_found
+  end
+
+  scope "/", PencilSpaceServerWeb do
+    pipe_through :browser
+    post  "/*path", ApiController, :route_not_found
   end
 end
