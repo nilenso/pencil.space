@@ -2,10 +2,18 @@
   (:require [reagent.core :as reagent]
             [src.sundry :refer [>evt <sub
                                 ->clj ->input
+                                now
                                 epoch->local]]
             [src.tube :as tube]
-            [src.chat.events :as events]
             [re-frame.core :as re-frame]))
+
+(defonce ^:private tube-event-type "chat")
+
+(defn create-message [msg]
+  {:body         msg
+   :avatar       (<sub [:avatar])
+   :publish-time (now)
+   :nick-name    (<sub [:nick-name])})
 
 (defn receive-msg
   [resp]
@@ -16,7 +24,7 @@
     (fn []
       [:form.form-group.row.chat-box {:on-submit (fn [e]
                                                    (.preventDefault e)
-                                                   (>evt [:send-msg @value])
+                                                   (>evt [:send-msg (create-message @value) tube-event-type])
                                                    (reset! value ""))}
        [:input.no-resize.chat-input.col-9 {:placeholder "Type your msg..."
                                            :on-change   #(reset! value (->input %))
@@ -44,4 +52,4 @@
 
 (defn mount []
   (tube/connect)
-  (tube/join events/tube-event-type receive-msg))
+  (tube/join tube-event-type receive-msg))
