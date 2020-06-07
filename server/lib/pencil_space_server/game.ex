@@ -7,36 +7,34 @@ defmodule PencilSpaceServer.Game do
   alias PencilSpaceServer.Game.Registry, as: GameRegistry
   alias PencilSpaceServer.Game.Supervisor, as: GameSupervisor
 
-  def start(host) do
+  def launch(%{"player" => player}) do
     name = Nanoid.generate()
-    case GameSupervisor.supervise({GameMonitor, name: ref(name), host: host}) do
+
+    case GameSupervisor.supervise({GameMonitor, name: citation(name), host: player}) do
       {:ok, _pid} -> {:ok, name}
       {:error, _} -> {:error}
     end
   end
 
   def presence(name) do
-    case GameMonitor.whereis(ref(name)) do
-      nil -> {:error, :does_not_exist}
-      __g -> {:ok, :exists}
+    case GameMonitor.whereis(citation(name)) do
+      nil -> {:error, :not_present}
+      __g -> {:ok, :present}
     end
   end
 
-  @doc """
-  Synchronously updates the participants on the Game state.
-
-  Returns a Game.State.
-
-  ## Examples
-
-      iex> PencilSpaceServer.Game.update("name-of-game", %{participant: 1})
-      %PencilSpaceServer.Game.State{participant: 1}
-  """
-  def update(name, %{"participant" => participant}) do
-    GameMonitor.call(ref(name), {:participant, participant})
+  def revise(name, %{"player" => player}) do
+    case presence(name) do
+      {:ok, :present} -> {:ok, update(name, player)}
+      {:error, :not_present} -> {:error, :not_present}
+    end
   end
 
-  defp ref(name) do
+  defp update(name, player) do
+    GameMonitor.update(citation(name), {:player, player})
+  end
+
+  defp citation(name) do
     {:via, Registry, {GameRegistry, name}}
   end
 end

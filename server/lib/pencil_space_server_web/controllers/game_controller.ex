@@ -5,51 +5,55 @@ defmodule PencilSpaceServerWeb.GameController do
 
   use PencilSpaceServerWeb, :controller
   alias PencilSpaceServer.Game
-  import PencilSpaceServerWeb.ControllerHelpers, only: [render_json: 3, render_error: 2]
+  import PencilSpaceServerWeb.ControllerHelpers, only: [render_json: 3, render_error: 2, head: 2]
 
-  def create(
+  def check(conn, %{"name" => name}) do
+    case Game.presence(name) do
+      {:ok, :present} -> head(conn, :no_content)
+      {:error, :not_present} -> head(conn, :not_found)
+    end
+  end
+
+  def check(conn, _params),
+    do: render_error(conn, 400)
+
+  def new(
         conn,
-        %{
-          "host" => %{
-            "id" => _id,
-            "name" => _name,
-            "avatar" => _avatar
-          }
-        } = host
+        %{"player" => %{"id" => _id, "name" => _name, "avatar" => _avatar}} = player
       ) do
-
-    case Game.start(host) do
+    case Game.launch(player) do
       {:ok, name} ->
         render_json(conn, :created, %{name: name})
+
       {:error} ->
         render_json(conn, :service_unavailable, %{error: "Could not create a new game"})
     end
   end
 
-  def create(conn, _params),
-      do: render_error(conn, 400)
+  def new(conn, _params),
+    do: render_error(conn, 400)
 
-  def join(
+  def update(
         conn,
-        %{
-          "name" => name,
-          "participant" => %{
-            "id" => _id,
-            "name" => _name,
-            "avatar" => _avatar
-          }
-        } = params
+        %{"name" => name, "player" => %{"id" => _id, "name" => _name, "avatar" => _avatar}} =
+          params
       ) do
+    IO.inspect("with name")
 
-    case Game.presence(name) do
-      {:ok, :exists} ->
-        Game.update(name, Map.take(params, ["participant"]))
-        render_json(conn, :accepted, %{name: name})
-      {:error, :does_not_exist} ->
+    case Game.revise(name, Map.take(params, ["player"])) do
+      {:ok, _state} ->
+        render_json(conn, :no_content, %{name: name})
+
+      {:error, :not_present} ->
         render_json(conn, :not_found, %{error: "Game with name: #{name} does not exist"})
+
+      {:error, :update_failed} ->
+        render_json(conn, :service_unavailable, %{
+          error: "Could not update the game with name: #{name}"
+        })
     end
   end
 
-  def join(conn, _params),
-      do: render_error(conn, 400)
+  def update(conn, _params),
+    do: render_error(conn, 400)
 end

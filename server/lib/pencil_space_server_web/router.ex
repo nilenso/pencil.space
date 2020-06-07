@@ -11,8 +11,10 @@ defmodule PencilSpaceServerWeb.Router do
 
   scope "/api/v1", PencilSpaceServerWeb do
     pipe_through :api
-    post "/game", GameController, :create
-    post "/game/:name", GameController, :join
+    post "/game", GameController, :new
+    get "/game/:name", GameController, :check
+    post "/game/:name", GameController, :update
+    get "/*path", ApiController, :route_not_found
     post "/*path", ApiController, :route_not_found
   end
 

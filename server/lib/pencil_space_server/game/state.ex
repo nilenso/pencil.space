@@ -3,16 +3,31 @@ defmodule PencilSpaceServer.Game.State do
   For atomically manipulating state.
   """
 
-  defstruct host: nil,
-            participants: []
+  defstruct players: []
 
-  def update(state, :host, value) do
+  def fetch(state, key) do
     state
-    |> Map.put(:host, value)
+    |> Map.fetch(key)
   end
 
-  def update(state, :participant, value) do
+  def update(state, :host, player) do
     state
-    |> Map.put(:participants, [value | state.participants])
+    |> update(:players, Map.put(player, :host, true))
+  end
+
+  def update(state, :players, player) do
+    case player_exists?(state, player) do
+      true ->
+        state
+
+      false ->
+        state
+        |> Map.put(:players, [player | state.players])
+    end
+  end
+
+  def player_exists?(state, %{"id" => id}) do
+    {:ok, players} = fetch(state, :players)
+    Enum.any?(players, fn player -> player["id"] == id end)
   end
 end

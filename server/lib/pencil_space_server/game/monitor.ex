@@ -7,7 +7,11 @@ defmodule PencilSpaceServer.Game.Monitor do
   alias PencilSpaceServer.Game.State
 
   def start_link(options) do
-    GenServer.start_link(__MODULE__, %State{host: Keyword.get(options, :host)}, options)
+    GenServer.start_link(
+      __MODULE__,
+      State.update(%State{}, :host, Keyword.get(options, :host)),
+      options
+    )
   end
 
   def init(state) do
@@ -18,12 +22,12 @@ defmodule PencilSpaceServer.Game.Monitor do
     GenServer.whereis(name)
   end
 
-  def call(name, {:participant, _participant} = params) do
+  def update(name, {:player, _player} = params) do
     GenServer.call(name, params)
   end
 
-  def handle_call({:participant, info}, _from, state) do
-    new_state = State.update(state, :participant, info)
+  def handle_call({:player, info}, _from, state) do
+    new_state = State.update(state, :players, info)
     {:reply, new_state, new_state}
   end
 end

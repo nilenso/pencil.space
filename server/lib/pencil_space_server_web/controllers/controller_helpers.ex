@@ -16,6 +16,11 @@ defmodule PencilSpaceServerWeb.ControllerHelpers do
   def render_error(conn, error_status) do
     conn
     |> put_status(error_status)
-    |> render(ErrorView, Enum.join([error_status, "json"], "."), [])
+    |> put_view(ErrorView)
+    |> render(Enum.join([error_status, "json"], "."), [])
+  end
+
+  def head(conn, status) do
+    send_resp(conn, status, "")
   end
 end
