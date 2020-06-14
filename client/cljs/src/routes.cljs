@@ -12,13 +12,13 @@
             [src.home.views :as home]
             [src.lobby.views :as lobby]
             [src.db :as db]
-            [src.sundry :refer [>evt <sub]]))
+            [src.sundry :refer [>evt <sub ->js]]
+            [clojure.string :as str]))
 
 (re-frame/reg-event-db
   ::update-game
   (fn [db [_ name]]
     (assoc db :game :starting :id name)))
-
 
 (def routes
   ["/"
@@ -36,15 +36,26 @@
      [{:start (fn [& params]
                 (chat/mount)
                 (js/console.log "Entering sub-page 2"))
-
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
    ["game/:name"
     {:name ::game
-     :view home/page
+     :view lobby/page
+     :parameters {:path {:name string?}}
      :controllers
-     [{:start (fn [& params]
-                (js/console.log "Entering game" params))
+     [{:parameters {:path [:name]}
+       :start (fn [params]
+                (lobby/mount (-> params :path :name))
+                (js/console.log "Entering game" (->js params)))
+       :stop  (fn [& params] (js/console.log "Leaving game"))}]}]
+
+   ["game/:name/join"
+    {:name ::game-join
+     :view home/page
+     :parameters {:path {:name string?}}
+     :controllers
+     [{:parameters {:path [:name]}
+       :start (fn [params] (js/console.log "Entering game" (->js params)))
        :stop  (fn [& params] (js/console.log "Leaving game"))}]}]
 
    ["lobby"
@@ -54,7 +65,6 @@
      [{:start (fn [& params]
                 (chat/mount)
                 (js/console.log "Entering sub-page 2"))
-
        :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
    ["draw"
@@ -76,11 +86,27 @@
  (fn [db]
    (:current-route db)))
 
-(re-frame/reg-event-db
+(re-frame/reg-fx
+ ::redirect
+ (fn [route-info]
+   (apply rfe/push-state route-info)))
+
+;; if they are new-player?
+;; send them to home page
+;; which will again check if they are new plater
+(re-frame/reg-event-fx
  ::navigated
- (fn [{current-route :current-route :as db} [_ new-match]]
-   (let [controllers (rfc/apply-controllers (:controllers current-route) new-match)]
-     (assoc db :current-route (assoc new-match :controllers controllers)))))
+ (fn [{db :db} [_ new-match]]
+   (let [current-route (:current-route db)
+         game?         (= (-> (r/match-by-name router ::game) :data :name)
+                          (-> new-match :data :name))
+         game-id       (when game? (-> new-match :path-params :name))
+         new-match     (if (and game? (str/blank? (:nick-name db)))
+                         (rf/match-by-name router ::home)
+                         new-match)
+         controllers   (rfc/apply-controllers (:controllers current-route) new-match)
+         new-route     (assoc new-match :controllers controllers)]
+     {:db (assoc db :current-route new-route :id game-id)})))
 
 (defn on-navigate [new-match]
   (when new-match

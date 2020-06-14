@@ -1,16 +1,30 @@
 (ns src.tube.core
   (:require ["phoenix" :refer (Socket)]))
 
-(def socket
+(defonce chan (atom nil))
+
+(defonce ^:private socket
   (new Socket
        "ws://localhost:4000/socket"
        (clj->js {:params {:token ""}})))
 
-(def channel (.channel socket "game:eeOeXocf3MZw99aJ3Mpgy" (clj->js {})))
-(def joined-channel (.join channel))
+(defn ^:private channel* [name params]
+  (.channel socket (str "game:" name) (clj->js params)))
 
-(defn connect []
-  (.connect socket))
+(defn ^:private join* []
+  (doto
+    (.join @chan)
+    (.receive "ok"
+              (fn [resp]
+                (js/console.log "Joined successfully" (clj->js resp))))
+    (.receive "error"
+              (fn [resp]
+                (js/console.log "Unable to join", resp)))))
+
+(defn connect [name params]
+  (.connect socket)
+  (swap! chan #(channel* name params))
+  (join*))
 
 (defn push
   ([msg-type msg-body]
@@ -38,23 +52,11 @@
              (js/console.log "Received Timeout" (pr-str resp-clj))))))
 
   ([msg-type msg-body on-ok on-error on-timeout]
-   (let [pushEvent (.push channel msg-type (clj->js msg-body))]
+   (let [pushEvent (.push @chan msg-type (clj->js msg-body))]
      (-> pushEvent
          (.receive "ok" #(on-ok (js->clj %)))
          (.receive "error" #(on-error (js->clj %)))
          (.receive "timeout" #(on-timeout (js->clj %)))))))
 
-(defn join
-  [event-type callback]
-
-  (.on channel event-type callback)
-
-  (.receive joined-channel
-            "ok"
-            (fn [resp]
-              (js/console.log "Joined successfully" (clj->js resp))))
-
-  (.receive joined-channel
-            "error"
-            (fn [resp]
-              (js/console.log "Unable to join", resp))))
+(defn subscribe [event callback]
+  (.on @chan event callback))

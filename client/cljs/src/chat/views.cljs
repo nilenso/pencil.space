@@ -51,5 +51,6 @@
      [chat-box]]))
 
 (defn mount []
-  (tube/connect)
-  (tube/join tube-event-type receive-msg))
+  (comment
+    (tube/connect "garbage" {})
+    (tube/subscribe tube-event-type receive-msg)))

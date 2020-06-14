@@ -1,17 +1,25 @@
 (ns src.lobby.views
   (:require [re-frame.core :as re-frame]
-            [src.sundry :refer [>evt <sub]]))
+            [src.tube.core :as tube]
+            [src.sundry :refer [>evt <sub ->clj]]))
 
 (re-frame/reg-sub
- ::players
+ ::get-participants
  (fn [db]
-   (select-keys db [:nick-name :avatar :id])))
+   (prn (:participants db))
+   (:participants db)))
 
 (defn page []
-  (let [{:keys [nick-name avatar id]} (<sub [::players])]
+  (fn []
     [:div
-     [:h1 "Lobby"]
-     [:ul
-      [:li [:span nick-name]]
-      [:li [:img {:src avatar}]]
-      [:li [:span id]]]]))
+     [:h2 "Lobby"]
+     [:ol
+      (for [{:keys [id name avatar] :as participants} (<sub [::get-participants])]
+        ^{:key (str (random-uuid))}
+        [:li
+         [:span name]
+         [:img {:src avatar}]
+         [:span id]])]]))
+
+
+(defn mount [_])

@@ -2,7 +2,7 @@
   (:require ["roughjs/bin/rough" :default rough]
             [re-frame.core :as re-frame]
             [reitit.frontend.easy :as rfe]
-            [src.api]
+            [src.game]
             [src.sundry :refer [>evt <sub
                                 ->js ->input
                                 random-hex-color]]))
@@ -89,5 +89,5 @@
           [:div.sm-8.col
            [:canvas#nick-sine {:width "800" :height "100"}]]]
          [:button.btn-success.btn-block
-          {:on-click #(>evt [::src.api/create-game])}
-          "Start a new game"]]]])))
+          {:on-click #(>evt [:src.game/create-or-join])}
+          "Begin"]]]])))

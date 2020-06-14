@@ -23,7 +23,7 @@ defmodule PencilSpaceServerWeb.GameController do
       ) do
     case Game.launch(player) do
       {:ok, name} ->
-        render_json(conn, :created, %{name: name})
+        render_json(conn, :created, %{game: %{name: name}, player: player})
 
       {:error} ->
         render_json(conn, :service_unavailable, %{error: "Could not create a new game"})
@@ -38,11 +38,10 @@ defmodule PencilSpaceServerWeb.GameController do
         %{"name" => name, "player" => %{"id" => _id, "name" => _name, "avatar" => _avatar}} =
           params
       ) do
-    IO.inspect("with name")
-
-    case Game.revise(name, Map.take(params, ["player"])) do
+    player_params = Map.take(params, ["player"])
+    case Game.revise(name, player_params) do
       {:ok, _state} ->
-        render_json(conn, :no_content, %{name: name})
+        render_json(conn, :created, %{game: %{name: name}, player: player_params})
 
       {:error, :not_present} ->
         render_json(conn, :not_found, %{error: "Game with name: #{name} does not exist"})
