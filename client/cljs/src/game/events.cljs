@@ -28,18 +28,23 @@
   (>evt [:populate-msg (->clj resp)]))
 
 (re-frame/reg-event-fx
- ::create-or-join
- (fn [{db :db} _]
-   (let [game-name (if (str/blank? (:id db))
-                     (rand-int 1000)
-                     (:id db))]
-     {:src.tube.fx/connect [game-name {:player {:id (rand-int 1000)
-                                                :name (:nick-name db)
-                                                :avatar (:avatar db)}}]
-      :src.tube.fx/subscribe ["player:joined" player-joined]
-      :src.tube.fx/subscribe ["chat", receive-msg]
-      :src.routes/redirect [:src.routes/game {:name game-name}]})))
+ ::subscribe
+ (fn [{db :db} effect]
+   {:src.tube.fx/subscribe effect}))
 
+(re-frame/reg-event-fx
+ ::create-or-join
+ (fn [{{:keys [id nick-name avatar] :as db} :db} _]
+   (let [game-name (if (str/blank? id)
+                     (rand-int 1000)
+                     id)]
+     {:src.tube.fx/connect [game-name
+                            {:player {:id (rand-int 1000)
+                                      :name nick-name
+                                      :avatar avatar}}]
+      :src.tube.fx/subscribe [["player:joined" player-joined]
+                              ["chat", receive-msg]]
+      :src.routes/redirect [:src.routes/game {:name game-name}]})))
 
 ;; game
 ;; handles subscribing to chat, player:join, player:leave, draw
