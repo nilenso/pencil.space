@@ -22,50 +22,33 @@
 
 (def routes
   ["/"
-   [""
-    {:name ::home
-     :view home/page
-     :controllers
-     [{:start (fn [& params] (js/console.log "Entering home page"))
-       :stop  (fn [& params] (js/console.log "Leaving home page"))}]}]
+   ["" {:name ::home
+        :view home/page
+        :controllers
+        [{:start (fn [& params] (js/console.log "Entering home page"))
+          :stop  (fn [& params] (js/console.log "Leaving home page"))}]}]
 
-   ["chat"
-    {:name ::chat
-     :view chat/page
-     :controllers
-     [{:start (fn [& params]
-                (chat/mount)
-                (js/console.log "Entering sub-page 2"))
-       :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
+   ["chat" {:name ::chat
+            :view chat/page
+            :controllers
+            [{:start (fn [& params]
+                       (chat/mount)
+                       (js/console.log "Entering sub-page 2"))
+              :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
-   ["game/:name"
-    {:name ::game
-     :view lobby/page
-     :parameters {:path {:name string?}}
-     :controllers
-     [{:parameters {:path [:name]}
-       :start (fn [params]
-                (lobby/mount (-> params :path :name))
-                (js/console.log "Entering game" (->js params)))
-       :stop  (fn [& params] (js/console.log "Leaving game"))}]}]
+   ["game/:name" {:name ::game
+                  :view lobby/page
+                  :parameters {:path {:name string?}}
+                  :controllers
+                  [{:parameters {:path [:name]}
+                    :start (fn [& params] (js/console.log "Entering game"))
+                    :stop  (fn [& params] (js/console.log "Leaving game"))}]}]
 
-   ["game/:name/join"
-    {:name ::game-join
-     :view home/page
-     :parameters {:path {:name string?}}
-     :controllers
-     [{:parameters {:path [:name]}
-       :start (fn [params] (js/console.log "Entering game" (->js params)))
-       :stop  (fn [& params] (js/console.log "Leaving game"))}]}]
-
-   ["lobby"
-    {:name ::lobby
-     :view lobby/page
-     :controllers
-     [{:start (fn [& params]
-                (chat/mount)
-                (js/console.log "Entering sub-page 2"))
-       :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
+   ["lobby" {:name ::lobby
+             :view lobby/page
+             :controllers
+             [{:start (fn [& params] (js/console.log "Entering sub-page 2"))
+               :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
 
    ["draw"
     {:name ::draw

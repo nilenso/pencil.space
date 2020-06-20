@@ -15,10 +15,6 @@
    :publish-time (now)
    :nick-name    (<sub [:nick-name])})
 
-(defn receive-msg
-  [resp]
-  (>evt [:populate-msg (->clj resp)]))
-
 (defn chat-box []
   (let [value (reagent/atom nil)]
     (fn []
