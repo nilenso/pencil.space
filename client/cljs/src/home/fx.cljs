@@ -15,8 +15,8 @@
 
 (defn points []
   (reduce (fn [acc v]
-            (let [x (+ 10 (* v (/ 800 20)))
-                  x-deg (* (/ (.-PI js/Math) (rand 50)) x)
+            (let [x (+ 10 (* v (/ 100 15)))
+                  x-deg (* (/ (.-PI js/Math) (rand 500)) x)
                   y-deg (* (.sin js/Math x-deg) 90)
                   y (+ (.round js/Math y-deg) 50)]
               (conj acc [x y])))

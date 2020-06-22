@@ -2,6 +2,6 @@
   (:require [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
- ::get-participants
+ ::get-players
  (fn [db]
-   (:participants db)))
+   (:players db)))

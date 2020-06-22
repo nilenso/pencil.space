@@ -83,11 +83,15 @@
    (let [current-route (:current-route db)
          game?         (= (-> (r/match-by-name router ::game) :data :name)
                           (-> new-match :data :name))
+
          game-id       (when game? (-> new-match :path-params :name))
-         new-match     (if (and game? (str/blank? (:nick-name db)))
+
+         new-match     (if (and game? (str/blank? (:name (db/you db))))
                          (rf/match-by-name router ::home)
                          new-match)
+
          controllers   (rfc/apply-controllers (:controllers current-route) new-match)
+
          new-route     (assoc new-match :controllers controllers)]
      {:db (assoc db :current-route new-route :id game-id)})))
 

@@ -9,21 +9,29 @@
                                 rand-hex-color]]))
 
 (defn page []
-  (let [nick (<sub [::subs/nick-name])]
-    (fn []
+  (fn []
+    (let [nick (<sub [::subs/name])]
       [:div.row.flex-center
-       [:div.sm-4.col
-        [:h1 "✏ This is pencil.space"]
-        [:div.form-group
-         [:div.row.flex-right
-          [:div.sm-4.col
-           [:label {:for "paperInputs1"}]
-           [:input#paperInputs1 {:placeholder "Enter a nick name...",
-                                 :type "text"
-                                 :auto-focus true
-                                 :on-change #(>evt [::events/nick-change (->input %)])}]]
-          [:div.sm-8.col
-           [:canvas#nick-sine {:width "800" :height "100"}]]]
-         [:button.btn-success.btn-block
-          {:on-click #(>evt [::game-events/create-or-join])}
-          "Begin"]]]])))
+       [:div.col
+        [:div.row
+         [:div.sm-12.col
+          [:h1 "✏ This is pencil.space"]]]
+
+        [:div.row.flex-center.flex-middle
+         [:div.sm-4.col.margin-left-large
+          [:label {:for "paperInputs1"}]
+          [:input#paperInputs1 {:placeholder "Enter a nick name...",
+                                :type "text"
+                                :auto-focus true
+                                :value nick
+                                :on-change #(>evt [::events/nick-change (->input %)])}]]
+         [:div.sm-4.col.margin-left-large
+          [:canvas#nick-sine {:width "100px" :height "100px"}]]]
+
+        [:div.row
+         [:div.sm-12.col
+          [:button.btn-success.btn-block
+           {:on-click #(>evt [::game-events/create-or-join
+                              nick
+                              (.toDataURL (.getElementById js/document "nick-sine") "image/jpeg," 0.1)])}
+           "Begin"]]]]])))

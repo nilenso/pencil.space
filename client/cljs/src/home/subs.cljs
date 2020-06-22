@@ -1,7 +1,9 @@
 (ns src.home.subs
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as re-frame]
+            [src.db :as db]))
 
 (re-frame/reg-sub
- ::nick-name
- (fn [{:keys [db] :as cofx}]
-   (:nick-name db)))
+ ::name
+ (fn [db]
+   (when (not (nil? db))
+     (:name (db/you db)))))
