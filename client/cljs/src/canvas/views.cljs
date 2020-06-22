@@ -108,5 +108,5 @@
         [:canvas#drawing-board])})))
 
 (defn mount []
-  (tube/connect)
-  (tube/join tube-event-type draw-received-drawing))
+  (comment (tube/connect "garbage")
+           (tube/subscribe tube-event-type draw-received-drawing)))

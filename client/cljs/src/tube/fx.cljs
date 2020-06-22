@@ -3,17 +3,18 @@
             [src.tube.core :as tube]
             [src.sundry :refer [->js]]))
 
-#_(re-frame/reg-fx
- :tube-connect
- (fn []
-   (tube/connect)))
-
-#_(re-frame/reg-fx
- :tube-join
- (fn [[tube-event-type on-event-cb]]
-   (tube/join tube-event-type on-event-cb)))
+(re-frame/reg-fx
+ ::connect
+ (fn [[name params]]
+   (tube/connect name params)))
 
 (re-frame/reg-fx
- :tube-push
- (fn [[tube-event-type msg]]
-   (tube/push tube-event-type (->js msg))))
+ ::subscribe
+ (fn [events]
+   (doseq [[event-type on-event-cb] events]
+     (tube/subscribe event-type on-event-cb))))
+
+(re-frame/reg-fx
+ ::push
+ (fn [[event-type msg]]
+   (tube/push event-type (->js msg))))

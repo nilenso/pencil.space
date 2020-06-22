@@ -1,6 +1,6 @@
 defmodule PencilSpaceServer.Game.Supervisor do
   @moduledoc """
-    Game supervisor for running game monitors.
+  Game supervisor for running game monitors.
   """
 
   use DynamicSupervisor
