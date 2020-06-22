@@ -33,7 +33,6 @@
 (re-frame/reg-event-fx
   ::create-game-success
   (fn [{:keys [db] :as cofx} [_ {:keys [game player] :as params}]]
-    (prn "going to redirect to lobby lol" params name)
     {:db (update (assoc db
                         :game :lobby
                         :id (:name game))

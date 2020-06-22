@@ -15,8 +15,6 @@
   (true? you))
 
 (defn update-players [existing-players players]
-  (prn existing-players)
-  (prn players)
   (->> (concat existing-players players)
        (sort-by :id)
        (partition-by :id)

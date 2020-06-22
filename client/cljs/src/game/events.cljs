@@ -36,10 +36,8 @@
                      id)
          player-deets {:id (rand-int 1000)
                        :name player-name
-                       :avatar player-avatar}
-         updates (update db :players db/update-you player-deets)]
-     (prn updates)
-     {:db updates
+                       :avatar player-avatar}]
+     {:db (update db :players db/update-you player-deets)
       :src.tube.fx/connect [game-name {:player player-deets}]
       :src.tube.fx/subscribe [["player:joined" player-joined]
                               ["chat" receive-msg]]
