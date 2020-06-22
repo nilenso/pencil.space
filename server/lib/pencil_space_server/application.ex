@@ -8,14 +8,11 @@ defmodule PencilSpaceServer.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
       PencilSpaceServer.Repo,
-      # Start the PubSub system
       {Phoenix.PubSub, name: PencilSpaceServer.PubSub},
-      # Start the endpoint when the application starts
-      PencilSpaceServerWeb.Endpoint
-      # Starts a worker by calling: PencilSpaceServer.Worker.start_link(arg)
-      # {PencilSpaceServer.Worker, arg},
+      PencilSpaceServerWeb.Endpoint,
+      {Registry, keys: :unique, name: PencilSpaceServer.Game.Registry},
+      {DynamicSupervisor, strategy: :one_for_one, name: PencilSpaceServer.Game.Supervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

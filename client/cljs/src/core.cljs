@@ -1,53 +1,31 @@
 (ns src.core
-  (:require ["paper" :as paper]))
+  (:require [re-frame.core :as re-frame]
+            [reagent.dom :as reagent-dom]
+            [src.dev :as dev]
+            [src.db :as db]
+            [src.routes :as routes]
+            [src.canvas.events]
+            [src.chat.events]
+            [src.chat.subs]
+            [src.tube.fx]))
 
-(def current-path (atom nil))
-(def path-buffer (atom nil))
-(def buffer-duration-ms 100)
+(re-frame/reg-event-db
+ ::initialize-db
+ (fn [db _] db/default))
 
-#_(defn draw-received-drawing
-  [path]
-  (let [path (clj->js (map (fn [point] [(+ (first point) 35) (second point)]) path))]
-    (new paper/Path (clj->js {:strokeColor "red"
-                              :strokeWidth 4
-                              :strokeJoin  "round"
-                              :strokeCap   "round"
-                              :segments    path}))))
+(def page-root
+  (.getElementById js/document "app"))
 
-(defn send-drawing
-  [path]
-  (.log js/console (clj->js path))
-  #_(draw-received-drawing (:path @path-buffer)))
+(defn loading
+  "Shows a loader message while waiting for page load."
+  []
+  (reagent-dom/render [:h2 "Loading"] page-root))
 
-(defn send-drawing-buffered
-  [event]
-  (let [x (.-x (.-point event))
-        y (.-y (.-point event))]
-    (if (> (- (.getTime (js/Date.)) (:timestamp @path-buffer)) buffer-duration-ms)
-      (do
-        (send-drawing (:path @path-buffer))
-        (swap! path-buffer assoc :path [])
-        (swap! path-buffer assoc :timestamp (.getTime (js/Date.))))
-      (swap! path-buffer update :path conj [x y]))))
+(defn ^:export init
+  []
+  (js/console.log "Initializing...")
 
-(defn onMouseDown
-  [event]
-  (reset! current-path (new paper/Path (clj->js {:strokeColor "red"
-                                                 :strokeWidth 4
-                                                 :strokeJoin  "round"
-                                                 :strokeCap   "round"})))
-  (.add @current-path (.-point event))
-  (reset! path-buffer {:path      []
-                       :timestamp (.getTime (js/Date.))}))
-
-(defn onMouseDrag
-  [event]
-  (.add @current-path (.-point event))
-  (.smooth @current-path)
-  (send-drawing-buffered event))
-
-(defn main []
-  (let [canvas (.getElementById js/document "canvas")]
-    (.setup paper canvas)
-    (set! (.-onMouseDown paper/view) onMouseDown)
-    (set! (.-onMouseDrag paper/view) onMouseDrag)))
+  (dev/setup)
+  (re-frame/dispatch-sync [::initialize-db])
+  (loading)
+  (routes/mount page-root))

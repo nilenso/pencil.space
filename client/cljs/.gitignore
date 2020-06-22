@@ -18,7 +18,7 @@ pom.xml.asc
 
 .hgignore
 .hg/
-build/*#*
-build/assets/main.js
-build/assets/manifest.edn
-build/assets/cljs-runtime/
+static/*#*
+static/assets/main.js
+static/assets/manifest.edn
+static/assets/cljs-runtime/
