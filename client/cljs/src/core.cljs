@@ -19,7 +19,7 @@
 (defn loading
   "Shows a loader message while waiting for page load."
   []
-  (reagent-dom/render [:h2 "Loading"] page-root))
+  (reagent-dom/render [:p.loading "✏"] page-root))
 
 (defn ^:export init
   []
@@ -28,4 +28,4 @@
   (dev/setup)
   (re-frame/dispatch-sync [::initialize-db])
   (loading)
-  (routes/mount page-root))
+  (js/setTimeout #(routes/mount page-root) 1000))

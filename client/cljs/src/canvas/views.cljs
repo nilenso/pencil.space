@@ -3,6 +3,7 @@
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
+            [src.canvas.events :as events]
             [src.sundry :refer [>evt ->clj ->js]]
             [src.tube.core :as tube]))
 
@@ -49,7 +50,7 @@
 
 (defn send-buffer! []
   (when (not-empty (:segments @path-buffer))
-    (>evt [:send-new-path @path-buffer tube-event-type])
+    (>evt [::events/send-new-path @path-buffer tube-event-type])
     (clear-path-buffer!)))
 
 (defn send-buffer-if-time! []
@@ -106,7 +107,3 @@
       :reagent-render
       (fn []
         [:canvas#drawing-board])})))
-
-(defn mount []
-  (comment (tube/connect "garbage")
-           (tube/subscribe tube-event-type draw-received-drawing)))

@@ -28,16 +28,8 @@
         [{:start (fn [& params] (js/console.log "Entering home page"))
           :stop  (fn [& params] (js/console.log "Leaving home page"))}]}]
 
-   ["chat" {:name ::chat
-            :view chat/page
-            :controllers
-            [{:start (fn [& params]
-                       (chat/mount)
-                       (js/console.log "Entering sub-page 2"))
-              :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
-
    ["game/:name" {:name ::game
-                  :view lobby/page
+                  :view game/page
                   :parameters {:path {:name string?}}
                   :controllers
                   [{:parameters {:path [:name]}
@@ -48,16 +40,7 @@
              :view lobby/page
              :controllers
              [{:start (fn [& params] (js/console.log "Entering sub-page 2"))
-               :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]
-
-   ["draw"
-    {:name ::draw
-     :view game/page
-     :controllers
-     [{:start (fn [& params]
-                (game/mount)
-                (js/console.log "Entering sub-page 2"))
-       :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
+               :stop  (fn [& params] (js/console.log "Leaving sub-page 2"))}]}]])
 
 (def router
   (rf/router
@@ -86,9 +69,19 @@
 
          game-id       (when game? (-> new-match :path-params :name))
 
-         new-match     (if (and game? (str/blank? (:name (db/you db))))
-                         (rf/match-by-name router ::home)
-                         new-match)
+         new-match     (cond
+                         (and game?
+                              (not (db/you-have-a-name? db))) (do (prn (db/you-have-a-name? db)) (rf/match-by-name router ::home))
+
+                         (and game?
+                              (db/you-have-a-name? db)
+                              (db/lobby? db))                    (rf/match-by-name router ::lobby)
+
+                         (and game?
+                              (db/you-have-a-name? db)
+                              (db/started? db))               (rf/match-by-name router ::game)
+
+                         :else new-match)
 
          controllers   (rfc/apply-controllers (:controllers current-route) new-match)
 

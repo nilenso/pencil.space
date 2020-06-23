@@ -5,10 +5,9 @@
             [src.db :as db]
             [src.sundry :refer [>evt ->clj]]))
 
-(def state {:unstarted :joined
-            :joined    :lobby
-            :lobby     :in-game
-            :in-game   :finished})
+(def next-state {:unstarted :lobby
+                 :lobby     :started
+                 :started   :finished})
 
 (re-frame/reg-event-db
  ::populate-players
@@ -30,15 +29,22 @@
 
 (re-frame/reg-event-fx
  ::create-or-join
- (fn [{{:keys [id] :as db} :db} [_ player-name player-avatar]]
+ (fn [{{:keys [id game] :as db} :db} [_ player-name player-avatar]]
    (let [game-name (if (str/blank? id)
                      (rand-int 1000)
                      id)
          player-deets {:id (rand-int 1000)
                        :name player-name
                        :avatar player-avatar}]
-     {:db (update db :players db/update-you player-deets)
+     {:db (assoc (update db :players db/update-you player-deets) :game (next-state game))
       :src.tube.fx/connect [game-name {:player player-deets}]
       :src.tube.fx/subscribe [["player:joined" player-joined]
                               ["chat" receive-msg]]
       :src.routes/redirect [:src.routes/game {:name game-name}]})))
+
+(re-frame/reg-event-fx
+ ::start-game
+ (fn [{{:keys [id game] :as db} :db} _]
+   {:db (assoc db :game (next-state game))
+    :src.tube.fx/subscribe [["draw" src.canvas.views/draw-received-drawing]]
+    :src.routes/redirect [:src.routes/game {:name id}]}))

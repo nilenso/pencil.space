@@ -12,7 +12,3 @@
      [:div.xs-12.lg-4
       [chat/page]]]]
    [:div.xs-1.sm-2.md-2]])
-
-(defn mount []
-  (canvas/mount)
-  (chat/mount))
