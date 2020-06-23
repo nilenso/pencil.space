@@ -11,27 +11,24 @@
 (defn page []
   (fn []
     (let [nick (<sub [::subs/name])]
-      [:div.row.flex-center
-       [:div.col
+      [:div.row.flex-center.title-box-container.mt-5
+       [:div.content.title-box.text-center
+        [:h1 "✏" [:br] "pencil.space"]
         [:div.row
-         [:div.sm-12.col
-          [:h1 "✏ This is pencil.space"]]]
-
-        [:div.row.flex-center.flex-middle
-         [:div.sm-4.col.margin-left-large
-          [:label {:for "paperInputs1"}]
-          [:input#paperInputs1 {:placeholder "Enter a nick name...",
-                                :type "text"
-                                :auto-focus true
-                                :value nick
-                                :on-change #(>evt [::events/nick-change (->input %)])}]]
-         [:div.sm-4.col.margin-left-large
-          [:canvas#nick-sine {:width "100px" :height "100px"}]]]
+         [:canvas#nick-sine.border.border-primary.border-2 {:width "100px" :height "100px"}]]
+        [:div.row
+         [:div.col-12.text-center
+          [:input.nick-input {:placeholder "Enter a nick name...",
+                             :type        "text"
+                             :auto-focus  true
+                             :value       nick
+                             :on-change   #(>evt [::events/nick-change (->input %)])}]]]
 
         [:div.row
          [:div.sm-12.col
-          [:button.btn-success.btn-block
+          [:button.btn-primary.no-hover.btn-block
            {:on-click #(>evt [::game-events/create-or-join
                               nick
                               (.toDataURL (.getElementById js/document "nick-sine") "image/jpeg," 0.1)])}
-           "Begin"]]]]])))
+           ; TODO: Say "start a game" or "Join game" depending on state
+           "Start a game"]]]]])))

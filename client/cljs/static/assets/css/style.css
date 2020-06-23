@@ -1,10 +1,98 @@
+/*Resets and declarations*/
+:root {
+  --color-dark: #184667;
+  --color-light: #1b998b;
+  --color-neutral: #e3dbdb;
+  --color-neutral-dark: #352267;
+  --color-black: #3e463e;
+  --color-white: white;
+
+  color: var(--color-white);
+  line-height: 1.0;
+}
+
+select {
+  cursor: pointer;
+}
+
+::-moz-selection {
+  color: white;
+  background: #0069ff;
+}
+
+::selection {
+  color: white;
+  background: #0069ff;
+}
+
 html {
   margin: 0;
   overflow: hidden;
   height: 100%;
-  color: black;
   font-family: 'mono';
+  background-color: var(--color-dark)
 }
+
+h1 {
+  margin: 0.3em 0 0.67em 0;
+  padding: 0;
+}
+
+.btn-primary {
+  background: var(--color-light) !important;
+  border-color: transparent !important;
+  color: white !important;
+  transition: all 0.3s;
+}
+
+.btn-primary:active {
+  border-color: transparent;
+  background: #18897d;
+  outline: none;
+}
+
+.btn-primary:focus {
+  border-color: transparent;
+}
+
+.btn-outline-primary {
+  border-color: var(--color-light) !important;
+  color: var(--color-primary) !important;
+  transition: all 0.3s;
+}
+
+.no-hover{
+  box-shadow: none;
+}
+
+.no-hover:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.border-primary {
+  border-color: var(--color-black);
+}
+
+.content {
+  background: var(--color-neutral);
+  color: var(--color-black);
+}
+
+/* Home */
+.title-box {
+  padding: 2rem;
+}
+
+.nick-input {
+  width: 100%;
+}
+
+canvas#nick-sine {
+  margin: auto;
+  background-color: #eee;
+}
+/* End Home */
 
 .board {
   background-color: #fade91;
@@ -22,13 +110,29 @@ canvas#drawing-board {
   background-color: white;
 }
 
-canvas#nick-sine {
-  position: relative;
-  margin: auto;
-  background-color: #eee;
-  border-radius: 10px;
+
+
+.avatar {
+  max-width: 50%;
+  border-radius: 50%;
+  border: none;
 }
 
+.player-list {
+  overflow-y: auto;
+  height: 575px;
+}
+
+@media only screen and (max-width: 768px)
+{
+  .xs-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+
+/* Chat */
 .chat {
   padding-left: 5px;
   padding-right: 5px;
@@ -72,25 +176,6 @@ canvas#nick-sine {
   padding-left: 0px;
 }
 
-.avatar {
-  max-width: 50%;
-  border-radius: 50%;
-  border: none;
-}
-
-.player-list {
-  overflow-y: auto;
-  height: 575px;
-}
-
-@media only screen and (max-width: 768px)
-{
-  .xs-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-}
-
 .chat-history li {
   padding: 3px 8px 8px 8px;
 }
@@ -116,28 +201,4 @@ canvas#nick-sine {
 .chat-input {
   border-color: #bb800c;
 }
-
-.chat-submit {
-  box-shadow: none;
-  background: #1B998B;
-  border-color: transparent;
-  color: white;
-  transition: all 0.3s;
-  margin-bottom: 0px;
-}
-
-.chat-submit:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.chat-submit:active {
-  border-color: transparent;
-  background: #18897d;
-  outline: none;
-  box-shadow: none;
-}
-
-.chat-submit:focus {
-  border-color: transparent;
-}
+/* End Chat */

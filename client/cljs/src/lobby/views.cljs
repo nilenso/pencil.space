@@ -10,7 +10,7 @@
   (fn []
     [:div
      [:div.row.flex-center
-      [:div.player-list.sm-3.col
+      [:div.player-list.sm-3.col.content
        [:ol
         (for [{:keys [id name avatar] :as players} (<sub [::subs/get-players])]
           ^{:key (str (random-uuid))}
@@ -25,7 +25,7 @@
        [chat/page]]]
 
      [:div.row
-      [:div.sm-12.col
+      [:div.sm-12.col.content
        [:button.btn-success.btn-block
         {:on-click #(>evt [::game-events/start-game])}
         "Start"]]]]))

@@ -21,7 +21,7 @@
                                            :on-change   #(reset! value (->input %))
                                            :value       @value}]
 
-       [:button.chat-submit.border-4.col-3 {:type :submit} "Send"]])))
+       [:button.btn-primary.no-hover.border-4.col-3 {:type :submit} "Send"]])))
 
 (defn history
   [msgs]
