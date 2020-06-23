@@ -71,15 +71,18 @@
 
          new-match     (cond
                          (and game?
-                              (not (db/you-have-a-name? db))) (do (prn (db/you-have-a-name? db)) (rf/match-by-name router ::home))
+                              (not (db/you-have-a-name? db)))
+                         (rf/match-by-name router ::home)
 
                          (and game?
                               (db/you-have-a-name? db)
-                              (db/lobby? db))                    (rf/match-by-name router ::lobby)
+                              (db/lobby? db))
+                         (rf/match-by-name router ::lobby)
 
                          (and game?
                               (db/you-have-a-name? db)
-                              (db/started? db))               (rf/match-by-name router ::game)
+                              (db/started? db))
+                         (rf/match-by-name router ::game)
 
                          :else new-match)
 
