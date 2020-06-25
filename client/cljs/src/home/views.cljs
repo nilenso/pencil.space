@@ -12,7 +12,7 @@
   (fn []
     (let [nick (<sub [::subs/name])]
       [:div.row.flex-center.title-box-container.mt-5
-       [:div.content.title-box.text-center
+       [:div.content.title-box.text-center.border.border-primary
         [:h1 "✏" [:br] "pencil.space"]
         [:div.row
          [:canvas#nick-sine.border.border-primary.border-2 {:width "100px" :height "100px"}]]
