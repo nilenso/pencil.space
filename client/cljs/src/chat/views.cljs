@@ -8,7 +8,7 @@
             [src.chat.events :as events]
             [re-frame.core :as re-frame]))
 
-(defonce ^:private tube-event-type "chat")
+(defonce ^:private tube-event-type "player:chat")
 
 (defn chat-box []
   (let [value (reagent/atom nil)]

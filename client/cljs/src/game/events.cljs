@@ -39,12 +39,12 @@
      {:db (assoc (update db :players db/update-you player-deets) :game (next-state game))
       :src.tube.fx/connect [game-name {:player player-deets}]
       :src.tube.fx/subscribe [["player:joined" player-joined]
-                              ["chat" receive-msg]]
+                              ["player:chat" receive-msg]]
       :src.routes/redirect [:src.routes/game {:name game-name}]})))
 
 (re-frame/reg-event-fx
  ::start-game
  (fn [{{:keys [id game] :as db} :db} _]
    {:db (assoc db :game (next-state game))
-    :src.tube.fx/subscribe [["draw" src.canvas.views/draw-received-drawing]]
+    :src.tube.fx/subscribe [["player:draw" src.canvas.views/draw-received-drawing]]
     :src.routes/redirect [:src.routes/game {:name id}]}))

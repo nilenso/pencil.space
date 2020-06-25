@@ -57,9 +57,6 @@
  (fn [route-info]
    (apply rfe/push-state route-info)))
 
-;; if they are new-player?
-;; send them to home page
-;; which will again check if they are new plater
 (re-frame/reg-event-fx
  ::navigated
  (fn [{db :db} [_ new-match]]
