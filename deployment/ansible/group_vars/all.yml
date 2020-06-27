@@ -1,0 +1,5 @@
+---
+ansible_port: 22
+deploy_user: "deploy"
+app_name: "pencil.space"
+nginx_port: 80
