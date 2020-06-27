@@ -102,16 +102,6 @@ canvas#nick-sine {
   max-width: 1100px;
 }
 
-canvas#drawing-board {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  background-color: white;
-}
-
-
-
 .avatar {
   max-width: 50%;
   border-radius: 50%;
@@ -150,9 +140,9 @@ canvas#drawing-board {
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 @keyframes bounce {
-    0%   { transform: rotate(90deg) translateX(0); }
-    50%  { transform: rotate(90deg) translateX(-80px); }
-    100% { transform: rotate(90deg) translateX(0); }
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(-80px); }
+  100% { transform: translateX(0); }
 }
 
 .loading {
@@ -166,6 +156,7 @@ canvas#drawing-board {
   -webkit-animation: bounce 0.8s linear infinite;
   -moz-animation: bounce 0.8s linear infinite;
   animation: bounce 0.8s linear infinite;
+  transform: rotate(90deg);
 }
 
 @media only screen and (max-width: 768px)
@@ -207,3 +198,52 @@ canvas#drawing-board {
   border-color: #bb800c;
 }
 /* End Chat */
+
+/* Canvas */
+canvas#drawing-board {
+  cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAMAAAAolt3jAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAwFBMVEUAAAD///+hoqOorKzj4+Pl5ubk5OTn5+iqq6uurrL////g4ODGx8itrrDu7u60tbZ3enx4eny0trbu7+/z8/Okpaejpaby8vP///+1trfg4OF3enx4e33g4uLFxsjGyMmtr7Ctr7Cur7HHyMnh4eJ4e33g4eG1trikpqekpafz8/Lv7++0trd4en20trfv7/Df4ODGx8jf3+BVWFtLT1FVWVtTVlk6PkE7P0JTV1k8QENLTlFLT1JVWVxTV1oAAABkRxW0AAAAM3RSTlMAAAAAAAAAAAAAEViVuS+r7/CsLi7Kyi4Qq1jw8FiVlbi5uJRY71eqyskuLqvvqi1XlFfwBlS2AAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAN1wAADdcBQiibeAAAAAd0SU1FB+MEBAcVE5CiQ1QAAACRSURBVAjXTc5nD4IwFIXhU7dQxIFaFAX3nrS0dfD/f5YNSvB+e5KbnBcAsWzqONS2CAxKLbcdcy463V6ZoOL1EymVklIPhlUwV8tHdjLxGUbjn4yDCaZxQRHCeaqc6hVhxv84BxXF83uBZVBwtQbz03xIbxhq3lZ/M9Ldvg7SOBxPwkQG50szq2ZXGkW3OzP4AEA8H1WamC2AAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA0LTA0VDExOjIxOjE5LTA0OjAwHnWHYQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wNC0wNFQxMToyMToxOS0wNDowMG8oP90AAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC') 7 7,crosshair;
+  background-color: #ffffff;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.canvas-texture {
+  background-image: url("/assets/img/natural-paper.png");
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.drawing-canvas {
+  position: relative;
+  height: 100%;
+  text-align: center;
+  overflow: hidden;
+}
+
+.colour-pencils {
+  position: absolute;
+  bottom: -100px;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.colour-pencil {
+  border: none;
+  border-radius: 0;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.colour-pencil:hover {
+  transform: translateY(-20px);
+ }
+/* End Canvas */

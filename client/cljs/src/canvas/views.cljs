@@ -12,13 +12,27 @@
 (def current-path (atom nil))
 (def path-buffer (atom nil))
 (def buffer-duration-ms 30)
+(def colour (atom "#555555"))
+
+(def colour-pencils
+  [{:filename "yellow.png" :colour-code "#fceb19"}
+   {:filename "dark-yellow.png" :colour-code "#f0a806"}
+   {:filename "orange.png" :colour-code "#ea7f15"}
+   {:filename "red.png" :colour-code "#ef5336"}
+   {:filename "dark-red.png" :colour-code "#b2212d"}
+   {:filename "blue.png" :colour-code "#3c8cef"}
+   {:filename "dark-blue.png" :colour-code "#3d48c7"}
+   {:filename "green.png" :colour-code "#4db108"}
+   {:filename "dark-green.png" :colour-code "#36684d"}
+   {:filename "brown.png" :colour-code "#71594d"}
+   {:filename "black.png" :colour-code "#555555"}])
 
 (defn current-time []
   (.getTime (js/Date.)))
 
 (defn new-path [& [options]]
-  (new paper/Path (clj->js (merge {:strokeColor "red"
-                                   :strokeWidth 4
+  (new paper/Path (clj->js (merge {:strokeColor @colour
+                                   :strokeWidth 3
                                    :strokeJoin  "round"
                                    :strokeCap   "round"}
                                   options))))
@@ -106,4 +120,12 @@
 
       :reagent-render
       (fn []
-        [:canvas#drawing-board])})))
+        [:div.drawing-canvas
+         [:canvas#drawing-board]
+         [:div.canvas-texture]
+         [:div.colour-pencils
+          (for [{:keys [filename colour-code]} colour-pencils]
+            [:img.colour-pencil {:key       colour-code
+                                 :draggable "false"
+                                 :src       (str "/assets/img/" filename)
+                                 :on-click  #(reset! colour colour-code)}])]])})))
