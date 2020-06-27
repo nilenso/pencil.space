@@ -1,0 +1,4 @@
+---
+server:
+  config:
+    ENABLE_SOMETHING: false
