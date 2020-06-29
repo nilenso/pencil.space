@@ -229,11 +229,12 @@ canvas#drawing-board {
 
 .colour-pencils {
   position: absolute;
-  bottom: -100px;
+  bottom: -130px;
   left:0;
   right:0;
   margin-left:auto;
   margin-right:auto;
+  user-select: none;
 }
 
 .colour-pencil {

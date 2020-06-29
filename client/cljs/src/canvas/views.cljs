@@ -31,10 +31,13 @@
   (.getTime (js/Date.)))
 
 (defn new-path [& [options]]
-  (new paper/Path (clj->js (merge {:strokeColor @colour
-                                   :strokeWidth 3
-                                   :strokeJoin  "round"
-                                   :strokeCap   "round"}
+  (new paper/Path (clj->js (merge {:strokeColor  @colour
+                                   :strokeWidth  3
+                                   :strokeJoin   "round"
+                                   :shadowColor  "#cccaaa"
+                                   :shadowBlur   2
+                                   :shadowOffset [0, 0]
+                                   :strokeCap    "round"}
                                   options))))
 
 (defn new-path-buffer [& [options]]
