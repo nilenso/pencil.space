@@ -13,6 +13,7 @@
 (def path-buffer (atom nil))
 (def buffer-duration-ms 30)
 (def colour (atom "#555555"))
+(def erase-sound (new js/Audio "assets/sounds/scratch_in.mp3"))
 
 (def colour-pencils
   [{:filename "yellow.png" :colour-code "#fceb19"}
@@ -34,7 +35,7 @@
   (new paper/Path (clj->js (merge {:strokeColor  @colour
                                    :strokeWidth  3
                                    :strokeJoin   "round"
-                                   :shadowColor  "#cccaaa"
+                                   :shadowColor  "#eee"
                                    :shadowBlur   2
                                    :shadowOffset [0, 0]
                                    :strokeCap    "round"}
@@ -107,7 +108,29 @@
   [event]
   (let [point (.-point event)]
     (add-to-current-path! point)
+    (add-to-buffer! point)
     (send-buffer!)))
+
+(defn erase []
+  (let [overlay-div      (js/document.getElementById "scratcher")
+        frame-duration   35
+        background-frame (atom 0)
+        js-interval      (atom nil)
+        begin-animation  #(reset! js-interval (js/setInterval % frame-duration))
+        stop-animation   #(js/clearInterval @js-interval)
+
+        set-overlay   #(set! (.. overlay-div -style -display) "block")
+        clear-overlay #(set! (.. overlay-div -style -display) "none")
+        clear-canvas  #(.removeChildren (.-activeLayer paper/project))]
+    (set-overlay)
+    (.play erase-sound)
+    (begin-animation
+     #(if (< (swap! background-frame inc) 19) ;;hardcoded frame number from scratch.png
+        (set! (.. overlay-div -style -backgroundPositionY) (str (* @background-frame -100) "%"))
+        (do
+          (stop-animation)
+          (clear-canvas)
+          (clear-overlay))))))
 
 (defn page []
   (let [dom-node (reagent/atom nil)]
@@ -126,6 +149,7 @@
         [:div.drawing-canvas
          [:canvas#drawing-board]
          [:div.canvas-texture]
+         [:div#scratcher]
          [:div.colour-pencils
           (for [{:keys [filename colour-code]} colour-pencils]
             [:img.colour-pencil {:key       colour-code
