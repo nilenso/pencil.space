@@ -4,7 +4,7 @@
             [reagent.core :as reagent]
             [reagent.dom :as reagent-dom]
             [src.canvas.events :as events]
-            [src.sundry :refer [>evt ->clj ->js]]
+            [src.sundry :refer [>evt ->clj ->js now]]
             [src.tube.core :as tube]))
 
 (defonce ^:private tube-event-type "draw")
@@ -28,9 +28,6 @@
    {:filename "brown.png" :colour-code "#71594d"}
    {:filename "black.png" :colour-code "#555555"}])
 
-(defn current-time []
-  (.getTime (js/Date.)))
-
 (defn new-path [& [options]]
   (new paper/Path (clj->js (merge {:strokeColor  @colour
                                    :strokeWidth  3
@@ -44,7 +41,7 @@
 (defn new-path-buffer [& [options]]
   (merge {:segments  []
           :path-id   (.-id @current-path)
-          :timestamp (current-time)}
+          :timestamp (now)}
          options))
 
 ;; temporary: draw sent path
@@ -72,7 +69,7 @@
     (clear-path-buffer!)))
 
 (defn send-buffer-if-time! []
-  (if (> (- (current-time)
+  (if (> (- (now)
             (:timestamp @path-buffer))
          buffer-duration-ms)
     (send-buffer!)))
