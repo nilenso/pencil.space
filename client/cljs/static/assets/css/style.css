@@ -140,9 +140,9 @@ canvas#nick-sine {
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 @keyframes bounce {
-  0%   { transform: translateX(0); }
-  50%  { transform: translateX(-80px); }
-  100% { transform: translateX(0); }
+  0%   { transform: rotate(90deg) translateX(0); }
+  50%  { transform: rotate(90deg) translateX(-80px); }
+  100% { transform: rotate(90deg) translateX(0); }
 }
 
 .loading {
