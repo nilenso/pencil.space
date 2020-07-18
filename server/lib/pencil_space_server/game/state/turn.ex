@@ -5,7 +5,8 @@ defmodule PencilSpaceServer.Game.State.Turn do
 
   defstruct [:id,
              :word,
-             scores: [],
+             scores: %{},
+             current_players: [],
              correct_guessers: [],
              player: nil,
              status: hd(@status)]
@@ -14,8 +15,42 @@ defmodule PencilSpaceServer.Game.State.Turn do
     %PencilSpaceServer.Game.State.Turn{id: Nanoid.generate(), player: player}
   end
 
-  def update(round, [:turn, key], value) when key in [:correct_guessers, :status] do
-    Map.put(round, key, value)
+  def update(turn, [:turn, key], value) when key in [:word, :current_players, :correct_guessers, :status, :scores, :status] do
+    if started?(turn) do
+      Map.put(turn, key, value)
+    else
+      turn
+    end
+  end
+
+  def update(turn, [:turn, :correct_guesser], correct_guesser) do
+    turn
+    |> update([:turn, :correct_guessers], [correct_guesser | turn.correct_guessers])
+    |> update([:turn, :scores], compute_scores(turn, correct_guesser))
+    |> turn_status_check()
+  end
+
+  def turn_status_check(turn) do
+    if current_players_have_guessed?(turn) do
+      update(turn, [:turn, :status], :finished)
+    else
+      turn
+    end
+  end
+
+  def current_players_have_guessed?(turn) do
+    length(turn.current_players -- turn.correct_guessers) == 0
+  end
+
+  def compute_scores(turn, new_guesser) do
+    score =
+      case length(turn.correct_guessers) do
+        0 -> 200
+        1 -> 150
+        _ -> 100
+      end
+
+    Map.put(turn.scores, new_guesser, score)
   end
 
   def change_turn?(turn, players) do
@@ -26,22 +61,10 @@ defmodule PencilSpaceServer.Game.State.Turn do
     Enum.find(turns, fn turn -> started?(turn) || unstarted?(turn) end)
   end
 
-  def update(turn, [:turn, :correct_guesser], correct_guesser) do
-    if started?(turn) do
-      update(turn, [:turn, :correct_guessers], [correct_guesser | turn.correct_guessers])
-    else
-      turn
-    end
-  end
-
-  def pick(turns) do
-    start(Enum.random(Enum.filter(turns, fn turn -> unstarted?(turn) end)))
-  end
-
-  def start(turn) do
-    turn
-    |> Map.put(:word, Dict.word)
+  def pick(turns, players) do
+    Enum.random(Enum.filter(turns, fn turn -> unstarted?(turn) end))
     |> Map.put(:status, :started)
+    |> update([:turn, :current_players], players)
   end
 
   def stop(turn) do
@@ -62,6 +85,10 @@ defmodule PencilSpaceServer.Game.State.Turn do
 
   def started?(turn) do
     turn.status == Enum.at(@status, 1)
+  end
+
+  def finished?(turn) do
+    turn.status == Enum.at(@status, 2)
   end
 
   def unstarted?(turn) do

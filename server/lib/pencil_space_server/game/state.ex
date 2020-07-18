@@ -13,12 +13,9 @@ defmodule PencilSpaceServer.Game.State do
               status: hd(@game_status),
               max_rounds: 0,
               max_players: 0,
-              words: [],
+              min_players: 2,
               rounds: [],
-              turns: [],
-              scores: [],
-              current_round: 0,
-              leader: 0
+              current_round: 0
             }
 
   def create(:game, %{id: id, host: host}) do
@@ -40,6 +37,18 @@ defmodule PencilSpaceServer.Game.State do
       is_list(key) && length(key) > 1 -> get_in(state, key)
       true -> {:error, "Invalid key expression"}
     end
+  end
+
+  def acquire(state, [:game, :scores]) do
+    state.game.rounds
+    |> Enum.map(fn round -> Round.fetch(round, [:round, :scores]) end)
+    |> Enum.reduce(%{}, fn score, acc ->
+      Map.merge(score, acc, fn player, score1, score2 -> score1 + score2 end)
+    end)
+  end
+
+  def acquire(state, [:game, :current_drawer]) do
+    state.game.current_round.current_turn.player
   end
 
   def add(state, [:players, :host], player) do
@@ -68,14 +77,18 @@ defmodule PencilSpaceServer.Game.State do
   end
 
   def add(state, [:game, :rounds]) do
-    rounds = Enum.map(1..state.game.max_rounds, fn _ -> Round.create end)
+    rounds = Enum.map(1..state.game.max_rounds, fn _ -> Round.create() end)
     update(state, [:game, :rounds], rounds)
   end
 
   def start(state) do
-    state
-    |> update([:game, :status], :started)
-    |> start([:game, :round])
+    if length(state.players) >= state.game.min_players do
+      state
+      |> update([:game, :status], :started)
+      |> start([:game, :round])
+    else
+      {:error, {:game, :not_enough_players}}
+    end
   end
 
   def start(state, [:game, :round]) do
@@ -110,6 +123,14 @@ defmodule PencilSpaceServer.Game.State do
     state
     |> update([:game, :rounds], rounds)
     |> update([:game, :current_round], updated_round)
+  end
+
+  def update(state, [:game, :turn, :word], word) do
+    current_round = state.game.current_round
+    current_turn = current_round.current_turn
+    turn = Turn.update(current_turn, [:turn, :word], word)
+    round = Round.update(current_round, [:round, :turn], turn)
+    update(state, [:game, :round], round)
   end
 
   def update(state, [:game, :turn, :guess], %{"player" => guesser, guess: guess}) do

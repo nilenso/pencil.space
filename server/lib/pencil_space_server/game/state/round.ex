@@ -4,10 +4,7 @@ defmodule PencilSpaceServer.Game.State.Round do
 
   alias PencilSpaceServer.Game.State.Turn
 
-  defstruct [:id,
-             status: hd(@status),
-             current_turn: nil,
-             turns: []]
+  defstruct [:id, status: hd(@status), current_turn: nil, turns: []]
 
   def create do
     %PencilSpaceServer.Game.State.Round{id: Nanoid.generate()}
@@ -20,8 +17,13 @@ defmodule PencilSpaceServer.Game.State.Round do
   def start(round, players) do
     # TODO: disallow same player from starting another turn
     round = update(round, [:round, :status], :started)
-    round = Enum.reduce(players, round, fn player, updated_round -> add(updated_round, [:round, :turn], player) end)
-    turn = Turn.pick(round.turns)
+
+    round =
+      Enum.reduce(players, round, fn player, updated_round ->
+        add(updated_round, [:round, :turn], player)
+      end)
+
+    turn = Turn.pick(round.turns, players)
     update(round, [:round, :turn], turn)
   end
 
@@ -31,6 +33,15 @@ defmodule PencilSpaceServer.Game.State.Round do
     else
       round
     end
+  end
+
+  def fetch(round, [:round, :scores]) do
+    round.turns
+    |> Enum.filter(fn turn -> Turn.started?(turn) || Turn.finished?(turn) end)
+    |> Enum.map(fn turn -> turn.scores end)
+    |> Enum.reduce(%{}, fn score, acc ->
+      Map.merge(score, acc, fn player, score1, score2 -> score1 + score2 end)
+    end)
   end
 
   def update(round, [:round, :turn], updated_turn) do
