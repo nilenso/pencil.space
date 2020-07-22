@@ -1,0 +1,49 @@
+name: Elixir CI
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    defaults:
+      run:
+        working-directory: ./server
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pencil_space_server_test
+        ports:
+        - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup elixir
+      uses: actions/setup-elixir@v1
+      with:
+        elixir-version: '1.10.3'
+        otp-version: '22.2'
+
+    - name: Install Dependencies
+      run: mix deps.get
+
+    - name: Run compilation
+      run: mix compile
+
+    - name: Run Tests
+      env:
+        POSTGRES_HOST: "localhost"
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+      run: MIX_ENV=ci mix test
