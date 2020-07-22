@@ -27,6 +27,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
     - uses: actions/checkout@v2
     - name: Setup elixir
@@ -43,6 +44,6 @@ jobs:
 
     - name: Run Tests
       env:
-        POSTGRES_HOST: "postgres"
+        POSTGRES_HOST: "localhost"
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
       run: MIX_ENV=ci mix test
