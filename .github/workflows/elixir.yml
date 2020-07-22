@@ -20,6 +20,8 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: pencil_space_server_test
+        ports:
+        - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -40,4 +42,7 @@ jobs:
       run: mix compile
 
     - name: Run Tests
-      run: mix test
+      env:
+        POSTGRES_HOST: "postgres"
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+      run: MIX_ENV=ci mix test
