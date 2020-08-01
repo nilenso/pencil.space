@@ -134,6 +134,13 @@ defmodule PencilSpaceServer.Game.StateTest do
     end
 
     test "returns an error if the player already exists in the game" do
+      state =
+        State.create(:game, %{id: 1, host: %{id: 1, name: "rich"}})
+        |> State.add([:players, :player], %{id: 2, name: "hickey"})
+        |> State.start()
+        |> State.add([:players, :player], %{id: 2, name: "hickey"})
+
+      assert state == {:error, {:player, :already_exists}}
     end
   end
 
@@ -265,4 +272,37 @@ defmodule PencilSpaceServer.Game.StateTest do
       assert state == {:error, {:game, :incorrect_guess}}
     end
   end
+
+  # start a game (only if >= 2 players)
+  # get choices
+  # select a word
+  # pass a turn
+  # turn is started
+  # drawer draws
+
+  # players guess:
+  # - finish the turn
+  # - finish the round
+  # - finish the game
+
+  # player leaves
+  # - finish the turn
+  # - finish the round
+  # - finish the game
+
+  # player
+  # - finish the turn
+
+  # when all players have guessed
+  # turn ends
+  # new turn is selected
+  # when all turns end
+  # new round is started
+  # when all rounds are over
+  # game ends
+
+  # correct guess?
+  # yes:
+  # - if turn is finished?
+  # -
 end

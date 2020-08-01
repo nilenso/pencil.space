@@ -14,3 +14,7 @@ defmodule PencilSpaceServer.Game.State.Player do
     Enum.any?(players, fn p -> p.id == player.id end)
   end
 end
+
+# STATE: turn has ended of correct guess
+# MONITOR: turn has ended -> start a new turn
+# BROADCAST: fact

@@ -4,7 +4,10 @@ defmodule PencilSpaceServer.Game.State.Round do
 
   alias PencilSpaceServer.Game.State.Turn
 
-  defstruct [:id, status: hd(@status), current_turn: nil, turns: []]
+  defstruct [:id,
+             status: hd(@status),
+             current_turn: nil,
+             turns: []]
 
   def create do
     %PencilSpaceServer.Game.State.Round{id: Nanoid.generate()}
