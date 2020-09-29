@@ -25,6 +25,7 @@ defmodule PencilSpaceServer.MixProject do
   end
 
   # Specifies which paths to compile per environment.
+  defp elixirc_paths(:ci), do: ["lib", "test/support"]
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
@@ -39,7 +40,8 @@ defmodule PencilSpaceServer.MixProject do
       {:ecto_sql, "~> 3.4.3"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.1"}
+      {:plug_cowboy, "~> 2.1"},
+      {:nanoid, "~> 2.0.2"}
     ]
   end
 
